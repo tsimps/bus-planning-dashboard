@@ -19,7 +19,7 @@
 - [ ] build stop filtering (possibly import from midterm)
 - [ ] add popups 
 - [x] add other modes' stops
-- [ ]
+- [ ] develop charts
 - [ ]
 - [ ]
 
@@ -30,7 +30,7 @@
 - [ ] scale line weight on ridership
 - [ ] color lines appropriately
 - [ ] add other modes' routes
-- [ ]
+- [ ] develop charts
 - [ ]
 - [ ]
 

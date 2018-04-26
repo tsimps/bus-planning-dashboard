@@ -6,14 +6,22 @@
 - [x] wireframe website
 - [x] create 3 main maps
 - [x] bring in SEPTA data
-- [ ] add subway data
-- [ ] add trolley data
+- [x] add subway data
+- [x] add trolley data
 - [ ] refactor api calls for smaller JSON files
+- [ ]
+- [ ]
+- [ ]
 
 ## stops page
 - [ ] style based on ridership
 - [ ] option to style based on shelter status
 - [ ] build stop filtering (possibly import from midterm)
+- [ ] add popups 
+- [ ]
+- [ ]
+- [ ]
+- [ ]
 
 ## routes page
 - [ ] filter out the 400 series routes
@@ -21,8 +29,15 @@
 - [ ] once route is chosen, bring up the stops for that route
 - [ ] scale line weight on ridership
 - [ ] color lines appropriately
+- [ ]
+- [ ]
+- [ ]
+- [ ]
 
 ## geographies page
+- [ ]
+- [ ]
+- [ ]
+- [ ]
+- [ ]
 
-
-# done

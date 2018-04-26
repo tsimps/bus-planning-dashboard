@@ -20,7 +20,7 @@
 - [ ] add popups 
 - [x] add other modes' stops
 - [ ] develop charts
-- [ ]
+- [ ] compile multiple route stops into 1 feature
 - [ ]
 
 ## routes page

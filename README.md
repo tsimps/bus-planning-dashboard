@@ -9,7 +9,7 @@
 - [x] add subway data
 - [x] add trolley data
 - [ ] refactor api calls for smaller JSON files
-- [ ]
+- [ ] refactor everything lol
 - [ ]
 - [ ]
 

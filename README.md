@@ -11,7 +11,10 @@
 
 
 ## routes page
-
+- [] filter out the 400 series routes
+- [] add user filter option
+- [] scale line weight on ridership
+- [] color lines appropriately
 
 ## geographies page
 

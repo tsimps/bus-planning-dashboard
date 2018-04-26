@@ -35,9 +35,9 @@
 - [ ]
 
 ## geographies page
-- [ ]
-- [ ]
-- [ ]
-- [ ]
+- [ ] allow user to select a neighborhood
+- [ ] allow user to search a neighobrhood
+- [ ] filter stops by neighborhood - http://turfjs.org/docs/#pointsWithinPolygon
+- [ ] filter routes by neighborhood 
 - [ ]
 

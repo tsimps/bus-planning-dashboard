@@ -14,14 +14,14 @@
 - [ ]
 
 ## stops page
-- [ ] style based on ridership
+- [x] style based on ridership
 - [ ] option to style based on shelter status
 - [ ] build stop filtering (possibly import from midterm)
-- [ ] add popups 
+- [x] add popups 
 - [x] add other modes' stops
 - [ ] develop charts
 - [ ] compile multiple route stops into 1 feature
-- [ ]
+- [ ] layer control
 
 ## routes page
 - [ ] filter out the 400 series routes

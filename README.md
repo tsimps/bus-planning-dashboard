@@ -8,16 +8,16 @@
 - [x] bring in SEPTA data
 
 ## stops page
-- [] style based on ridership
-- [] option to style based on shelter status
-- [] build stop filtering (possibly import from midterm)
+- [ ] style based on ridership
+- [ ] option to style based on shelter status
+- [ ] build stop filtering (possibly import from midterm)
 
 ## routes page
-- [] filter out the 400 series routes
-- [] add user selection/filter option
-- [] once route is chosen, bring up the stops for that route
-- [] scale line weight on ridership
-- [] color lines appropriately
+- [ ] filter out the 400 series routes
+- [ ] add user selection/filter option
+- [ ] once route is chosen, bring up the stops for that route
+- [ ] scale line weight on ridership
+- [ ] color lines appropriately
 
 ## geographies page
 

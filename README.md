@@ -7,6 +7,8 @@
 - [x] create 3 main maps
 - [x] bring in SEPTA data
 - [ ] add subway data
+- [ ] add trolley data
+- [ ] refactor api calls for smaller JSON files
 
 ## stops page
 - [ ] style based on ridership

@@ -6,6 +6,7 @@
 - [x] wireframe website
 - [x] create 3 main maps
 - [x] bring in SEPTA data
+- [ ] add subway data
 
 ## stops page
 - [ ] style based on ridership

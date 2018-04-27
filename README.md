@@ -23,6 +23,7 @@
 - [ ] compile multiple route stops into 1 feature
 - [x] layer control
 - [x] refactor mapping functions
+- [ ] search by name with fuse.js fuzzy sort
 
 ## routes page
 - [ ] filter out the 400 series routes

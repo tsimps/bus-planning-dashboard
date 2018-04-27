@@ -9,8 +9,8 @@
 - [x] add subway data
 - [x] add trolley data
 - [ ] refactor api calls for smaller JSON files
-- [ ] refactor everything lol
-- [ ]
+- [ ] general cleanup 1
+- [ ] 
 - [ ]
 
 ## stops page
@@ -35,7 +35,7 @@
 - [ ] add other modes' routes
 - [ ] develop charts
 - [ ] write addStopsByRoute() to take in a route # and map stops for that route
-- [ ]
+- [ ] refactor to add all routes of different modes at once
 
 ## geographies page
 - [ ] allow user to select a neighborhood

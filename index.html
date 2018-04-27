@@ -1,27 +1,11 @@
 <!doctype html>
-<!--
-Material Design Lite
-Copyright 2015 Google Inc. All rights reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-https://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License
--->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+  <meta name="description" content="A web based transit planning application">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <title>Bus Planning Dashboard</title>
+  <title>Transit Planning Dashboard</title>
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -69,10 +53,10 @@ limitations under the License
     <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
 
       <div class="mdl-layout--large-screen-only mdl-layout__header-row mdl-color-text--primary">
-        <h3>Bus Planning Dashboard</h3>
+        <h3>Transit Planning Dashboard</h3>
       </div>
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-        
+
         <a href="#stops" class="mdl-layout__tab mdl-navigation__link is-active">Stops</a>
         <a href="#routes" class="mdl-layout__tab mdl-navigation__link">Routes</a>
         <a href="#geographies" class="mdl-layout__tab mdl-navigation__link">Geographies</a>
@@ -83,13 +67,48 @@ limitations under the License
       <div class="mdl-layout__tab-panel is-active" id="stops">
         <div class="mdl-grid">
           <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
-            <h3> Stop Level Analytics </h3>
+            <h4> Search </h4>
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-                <label class="mdl-textfield__label" for="sample4">Stop ID...</label>
+                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="stopSearch">
+                <label class="mdl-textfield__label" for="stopSearch">Stop ID...</label>
                 <span class="mdl-textfield__error">Input is not a number!</span>
               </div>
+            </form>
+            <form action="#">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="stopName">
+                <label class="mdl-textfield__label" for="stopName">Stop Name...</label>
+              </div>
+            </form>
+            <form>
+              <fieldset>
+                <legend><h4>Layers</h4></legend>
+                <div>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="bus">
+                    <input type="checkbox" id="bus" class="mdl-checkbox__input" value="bus" checked>
+                    <span class="mdl-checkbox__label">Bus Stops</span>
+                  </label>
+                </div>
+                <div>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="trolley">
+                    <input type="checkbox" id="trolley" class="mdl-checkbox__input" value="troley" checked>
+                    <span class="mdl-checkbox__label">Trolley Stops</span>
+                  </label>
+                </div>
+                <div>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="mfl">
+                    <input type="checkbox" id="mfl" class="mdl-checkbox__input" value="mfl" checked>
+                    <span class="mdl-checkbox__label">MFL Stations</span>
+                  </label>
+                </div>
+                <div>
+                  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="bsl">
+                    <input type="checkbox" id="bsl" class="mdl-checkbox__input" value="bsl" checked>
+                    <span class="mdl-checkbox__label">BSL Stations</span>
+                  </label>
+                </div>
+              </fieldset>
             </form>
           </div>
           <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
@@ -100,11 +119,11 @@ limitations under the License
       <div class="mdl-layout__tab-panel" id="routes">
         <div class="mdl-grid">
           <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
-            <h3> Route Level Analytics </h3>
+            <h4> Search </h4>
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-                <label class="mdl-textfield__label" for="sample4">Route Number...</label>
+                <input class="mdl-textfield__input" type="text" id="routeSearch">
+                <label class="mdl-textfield__label" for="routeSearch">Route...</label>
 
               </div>
             </form>
@@ -140,6 +159,7 @@ limitations under the License
   <script src="js/underscore.js"></script>
   <script src="js/jquery-2.2.0.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.0/fuse.min.js"></script>
   <script src="js/main.js"></script>
 
 </body>

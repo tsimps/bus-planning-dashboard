@@ -28,14 +28,15 @@
 
 ## routes page
 - [x] filter out the school routes 
-- [ ] add user selection/filter option
+- [x] add user selection/filter option
 - [ ] once route is chosen, bring up the stops for that route
 - [ ] scale line weight on ridership
-- [ ] color lines appropriately
-- [ ] add other modes' routes
+- [x] color lines appropriately
+- [x] add other modes' routes
 - [ ] develop charts
-- [ ] write addStopsByRoute() to take in a route # and map stops for that route
-- [ ] refactor to add all routes of different modes at once
+- [x] write addStopsByRoute() to take in a route # and map stops for that route
+- [x] refactor to add all routes of different modes at once 
+- [ ] populate a dropdown list as the user types a route number
 
 ## geographies page
 - [ ] allow user to select a neighborhood

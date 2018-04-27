@@ -25,6 +25,7 @@
 - [x] refactor mapping functions
 - [ ] search by name with fuse.js fuzzy sort
 
+
 ## routes page
 - [x] filter out the school routes 
 - [ ] add user selection/filter option
@@ -33,7 +34,7 @@
 - [ ] color lines appropriately
 - [ ] add other modes' routes
 - [ ] develop charts
-- [ ]
+- [ ] write addStopsByRoute() to take in a route # and map stops for that route
 - [ ]
 
 ## geographies page

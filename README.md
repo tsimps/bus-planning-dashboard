@@ -16,7 +16,7 @@
 ## stops page
 - [x] style based on ridership
 - [ ] option to style based on shelter status
-- [ ] build stop filtering (possibly import from midterm)
+- [x] build stop filtering by stop id (possibly import from midterm)
 - [x] add popups 
 - [x] add other modes' stops
 - [ ] develop charts

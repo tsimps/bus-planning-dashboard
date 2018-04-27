@@ -10,7 +10,7 @@
 - [x] add trolley data
 - [ ] refactor api calls for smaller JSON files
 - [ ] general cleanup 1
-- [ ] 
+- [ ] refactor stop mapping functions and popups
 - [ ]
 
 ## stops page
@@ -30,7 +30,7 @@
 ## routes page
 - [x] filter out the school routes 
 - [x] add user selection/filter option
-- [ ] once route is chosen, bring up the stops for that route
+- [x] once route is chosen, bring up the stops for that route
 - [ ] scale line weight on ridership
 - [x] color lines appropriately
 - [x] add other modes' routes

@@ -23,7 +23,8 @@
 - [ ] compile multiple route stops into 1 feature
 - [x] layer control
 - [x] refactor mapping functions
-- [ ] search by name with fuse.js fuzzy sort
+- [x] search by name limited viability
+- [ ] possibly switch search by name to a geocoding search 
 
 
 ## routes page

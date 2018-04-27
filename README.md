@@ -21,8 +21,8 @@
 - [x] add other modes' stops
 - [ ] develop charts
 - [ ] compile multiple route stops into 1 feature
-- [ ] layer control
-- [ ] refactor mapping functions
+- [x] layer control
+- [x] refactor mapping functions
 
 ## routes page
 - [ ] filter out the 400 series routes

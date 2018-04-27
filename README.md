@@ -26,7 +26,7 @@
 - [ ] search by name with fuse.js fuzzy sort
 
 ## routes page
-- [ ] filter out the 400 series routes
+- [x] filter out the school routes 
 - [ ] add user selection/filter option
 - [ ] once route is chosen, bring up the stops for that route
 - [ ] scale line weight on ridership

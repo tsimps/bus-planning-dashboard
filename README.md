@@ -25,7 +25,7 @@
 - [x] refactor mapping functions
 - [x] search by name limited viability
 - [ ] possibly switch search by name to a geocoding search except mapbox geocoder doesn't support intersection based searching 
-- [ ] put layer control into a MDL menu
+- [x] put layer control into a MDL menu
 
 
 ## routes page

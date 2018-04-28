@@ -13,6 +13,7 @@
 - [ ] refactor stop mapping functions and popups
 - [ ] split out javascript files
 
+
 ## stops page
 - [x] style based on ridership
 - [ ] option to style based on shelter status
@@ -26,6 +27,7 @@
 - [x] search by name limited viability
 - [ ] possibly switch search by name to a geocoding search except mapbox geocoder doesn't support intersection based searching 
 - [x] put layer control into a MDL menu
+- [ ] add checkboxes to remove suburban stops
 
 
 ## routes page
@@ -40,9 +42,10 @@
 - [x] refactor to add all routes of different modes at once 
 - [ ] populate a dropdown list as the user types a route number
 - [x] allow user to click to clear
+- [ ] add checkboxes to remove suburban routes
 
 ## performance page
-- [ ] 
+- [ ] add checkboxes to remove suburban routes
 - [ ] 
 - [ ] 
 

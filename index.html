@@ -33,7 +33,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
-
+<link rel="stylesheet" href="nouislider.min.css">
 <link rel="stylesheet" href="material.css">
 <link rel="stylesheet" href="styles.css">
 <style>
@@ -49,23 +49,28 @@
 </style>
 </head>
 <body class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
     <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
 
       <div class="mdl-layout--large-screen-only mdl-layout__header-row mdl-color-text--primary">
         <h3>Transit Planning Dashboard</h3>
       </div>
-      <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
 
+      <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
         <a href="#stops" class="mdl-layout__tab mdl-navigation__link is-active">Stops</a>
         <a href="#routes" class="mdl-layout__tab mdl-navigation__link">Routes</a>
-        <a href="#geographies" class="mdl-layout__tab mdl-navigation__link">Geographies</a>
+        <a href="#performance" class="mdl-layout__tab mdl-navigation__link">Performance</a>
       </div>
+
     </header>
+
     <main class="mdl-layout__content">
 
       <div class="mdl-layout__tab-panel is-active" id="stops">
         <div class="mdl-grid">
+
           <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
             <h4> Search </h4>
             <form action="#">
@@ -77,90 +82,154 @@
             </form>
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" id="stopName">
-                <label class="mdl-textfield__label" for="stopName">Stop Name...</label>
+                <input class="mdl-textfield__input" type="text" id="stopNameSearch">
+                <label class="mdl-textfield__label" for="stopNameSearch">Stop Name...</label>
               </div>
             </form>
-            <form>
-              <fieldset>
-                <legend><h4>Layers</h4></legend>
+            <canvas id="stopsChart" height="300"></canvas>
+          </div>
+
+          <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
+
+            <!-- Left aligned menu below button -->
+            <button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon">
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+            for="demo-menu-lower-left">
+            <div>
+              <li class="mdl-menu__item">
                 <div>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="bus">
                     <input type="checkbox" id="bus" class="mdl-checkbox__input" value="bus" checked>
                     <span class="mdl-checkbox__label">Bus Stops</span>
                   </label>
                 </div>
+              </li>
+            </div>
+            <div>
+              <li class="mdl-menu__item">
                 <div>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="trolley">
                     <input type="checkbox" id="trolley" class="mdl-checkbox__input" value="troley" checked>
                     <span class="mdl-checkbox__label">Trolley Stops</span>
                   </label>
                 </div>
+              </li>
+            </div>
+            <div>
+              <li class="mdl-menu__item">
                 <div>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="mfl">
                     <input type="checkbox" id="mfl" class="mdl-checkbox__input" value="mfl" checked>
                     <span class="mdl-checkbox__label">MFL Stations</span>
                   </label>
                 </div>
+              </li>
+            </div>
+            <div>
+              <li class="mdl-menu__item">
                 <div>
                   <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="bsl">
                     <input type="checkbox" id="bsl" class="mdl-checkbox__input" value="bsl" checked>
                     <span class="mdl-checkbox__label">BSL Stations</span>
                   </label>
                 </div>
-              </fieldset>
-            </form>
-          </div>
-          <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
-            <div class = "map" id="map_stops"></div>
-          </div>
+              </li>
+            </div>
+          </ul>
+
+
+          <div class = "map" id="map_stops"></div>
+
+
         </div>
       </div>
-      <div class="mdl-layout__tab-panel" id="routes">
-        <div class="mdl-grid">
-          <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
+    </div>
+
+
+    <div class="mdl-layout__tab-panel" id="routes">
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
+          <div>
             <h4> Search </h4>
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="routeSearch">
                 <label class="mdl-textfield__label" for="routeSearch">Route...</label>
-
               </div>
             </form>
-          </div>
-          <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
-            <div class = "map" id="map_routes"></div>
+            <br>
+            <canvas id="routesChart" height="300"></canvas>
           </div>
         </div>
+        <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
+          <div class = "map" id="map_routes"></div>
+        </div>
       </div>
-      <div class="mdl-layout__tab-panel" id="geographies">
-        <div class="mdl-grid">
-          <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
-            <h3> Geographic Analytics </h3>
-            <form action="#">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="sample4">
-                <label class="mdl-textfield__label" for="sample4">Neighborhood Name...</label>
+    </div>
 
-              </div>
-            </form>
+    <div class="mdl-layout__tab-panel" id="performance">
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
+          <h4> Performance Analytics </h4>
+
+          <div style="padding:5px;">
+            <button class="mdl-button mdl-js-button mdl-button--raised" id="filterSuburbanButton">
+              Filter Suburban Routes
+            </button>
           </div>
-          <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
-            <div class = "map" id="map_geographies"></div>
+
+          <br><br><p> Filter by Operating Ratio </p><br><br>
+          <div id = "slider1" class="noUi-target noUi-ltr noUi-horizontal">
+          </div>
+          <div>
+            <br><br>
+            <p> Quick Sets </p>
+            <div style="padding:5px;">
+              <button class="mdl-button mdl-js-button mdl-button--raised" id="lowPerformanceButton">
+                Low Performance Routes
+              </button>
+            </div>
+            <div style="padding:5px;">
+              <button class="mdl-button mdl-js-button mdl-button--raised" id="midPerformanceButton">
+                Medium Performance Routes
+              </button>
+            </div>
+            <div style="padding:5px;">
+              <button class="mdl-button mdl-js-button mdl-button--raised" id="highPerformanceButton">
+                High Performance Routes
+              </button>
+            </div>
+            <div style="padding:5px;">
+              <button class="mdl-button mdl-js-button mdl-button--raised" id="fullSystemButton">
+                Full System
+              </button>
+            </div>
           </div>
         </div>
+        <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
+          <div class = "map" id="map_performance"></div>
+        </div>
       </div>
-    </main>
-  </div>
-  <!-- Javascript Imports Here -->
-  <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
-  <script src="js/leaflet.js"></script>
-  <script src="js/leaflet.ajax.js"></script>
-  <script src="js/underscore.js"></script>
-  <script src="js/jquery-2.2.0.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.0/fuse.min.js"></script>
-  <script src="js/main.js"></script>
+    </div>
+
+  </main>
+</div>
+</body>
+
+<!-- Javascript Imports Here -->
+<script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+<script src="js/leaflet.js"></script>
+<script src="js/leaflet.ajax.js"></script>
+<script src="js/underscore.js"></script>
+<script src="js/jquery-2.2.0.js"></script>
+<script src="js/nouislider.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-omnivore/0.3.4/leaflet-omnivore.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.0/fuse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+<script src="js/main.js"></script>
 
 </body>
 </html>

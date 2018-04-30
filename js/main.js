@@ -191,14 +191,18 @@ function addStopsLayer(map) {
         property: "Weekday_Boards",
         type: "exponential",
         stops: [
-          [0, 2],
-          [50, 4],
-          [100, 6],
-          [250, 8],
-          [500, 12],
-          [1000, 15],
-          [2000, 20],
-          [3000, 25]
+          [{zoom: 14, value: 0}, 2],
+          [{zoom: 14, value: 50}, 4],
+          [{zoom: 14, value: 100}, 6],
+          [{zoom: 14, value: 250}, 8],
+          [{zoom: 14, value: 500}, 12],
+          [{zoom: 14, value: 1000}, 15],
+          [{zoom: 15.5, value: 0}, 6],
+          [{zoom: 15.5, value: 50}, 10],
+          [{zoom: 15.5, value: 100}, 16],
+          [{zoom: 15.5, value: 250}, 20],
+          [{zoom: 15.5, value: 500}, 28],
+          [{zoom: 15.5, value: 1000}, 34],
         ]
       }
     }
@@ -215,7 +219,20 @@ function addStopsLayer(map) {
       "circle-radius": {
         property: "Weekday_Boards",
         type: "exponential",
-        stops: [[0, 2], [50, 4], [100, 6], [250, 8], [500, 12], [1000, 15]]
+        stops: [
+          [{zoom: 14, value: 0}, 2],
+          [{zoom: 14, value: 50}, 4],
+          [{zoom: 14, value: 100}, 6],
+          [{zoom: 14, value: 250}, 8],
+          [{zoom: 14, value: 500}, 12],
+          [{zoom: 14, value: 1000}, 15],
+          [{zoom: 15.5, value: 0}, 6],
+          [{zoom: 15.5, value: 50}, 10],
+          [{zoom: 15.5, value: 100}, 16],
+          [{zoom: 15.5, value: 250}, 20],
+          [{zoom: 15.5, value: 500}, 28],
+          [{zoom: 15.5, value: 1000}, 34],
+        ]
       }
     }
   });

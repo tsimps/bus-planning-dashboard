@@ -177,66 +177,42 @@ map_routes.on("click", function(e) {
 
   // boolean for tracking clicks on a layer
   var layerClick = false;
+  var coordinates = 0;
 
-  console.log(e.target);
+  function layerClicking(e) {
+    layerClick = true;
+    coordinates = e.lngLat;
+    makeRoutePopups(coordinates, map_routes, e);
+    var routeNumber = e.features[0].properties.Route;
+    filterRoutes(map_routes, routeNumber);
+    filterStops(map_routes, routeNumber);
+    // update the search box to allow the user to clear
+    $("#routeSearch")[0].parentElement.MaterialTextfield.change(
+      e.features[0].properties.Route
+    );
+  }
 
-  // using _.each to control all of the layers at once
-  _.each(mapRoutesLayers, function(x) {
-
-    // manage the logic of clicking on a layer feature, where x is the feature
-    map_routes.on("click", x, function(e) {
-      console.log("layer click");
-      layerClick = true;
-
-      var coordinates = e.lngLat;
-      var description = [
-        "<h5>" +
-        "Route " +
-        e.features[0].properties.Route +
-        "</h5>" +
-        "<p>" +
-        "Average Weekday Ridership: " +
-        Math.round(e.features[0].properties.Average_Weekday_Passengers).toLocaleString() + "<br>" +
-        "Operating Ratio: " + e.features[0].properties.Operating_Ratio + "%" + "<br>" +
-        "Vehicles Used: " + e.features[0].properties.Vehicle_Group +
-        "</p>"
-      ];
-
-      // put up a popup
-      new mapboxgl.Popup({ offset: [0, -15] })
-      .setLngLat(coordinates)
-      .setHTML(description)
-      .addTo(map_routes);
-
-      // hold the routeNumber the user clicked on
-      var routeNumber = e.features[0].properties.Route;
-
-      // use the filterRoutes helper function
-      filterRoutes(map_routes, routeNumber);
-      filterStops(map_routes, routeNumber);
-
-      // update the search box to allow the user to clear
-      $("#routeSearch")[0].parentElement.MaterialTextfield.change(
-        e.features[0].properties.Route
-      );
-    });
-
-    if (layerClick === false && popupTracker === false) {
-      console.log('mapclick');
-
-      // clear the map
-      filterRoutes(map_routes, "");
-      $("#routeSearch")[0].parentElement.MaterialTextfield.change(
-        ""
-      );
-      if (routeMapIsFresh === false){
-        routeMapIsFresh = true;
-      }
-      if (routeMapIsFresh === true){
-        routeMapIsFresh = false;
-      }
-    }
+  map_routes.on("click", "busRoutes", function(e) {
+    layerClicking(e);
   });
+  map_routes.on("click", "trolleyRoutes", function(e) {
+    layerClicking(e);
+  });
+  map_routes.on("click", "mflRoute", function(e) {
+    layerClicking(e);
+  });
+  map_routes.on("click", "bslRoute", function(e) {
+    layerClicking(e);
+  });
+
+  if (layerClick === false && popupTracker === false) {
+
+    // clear the map
+    filterRoutes(map_routes, "");
+    $("#routeSearch")[0].parentElement.MaterialTextfield.change(
+      ""
+    );
+  }
 });
 
 // search by text input
@@ -244,7 +220,7 @@ routeSearchInput.addEventListener("keyup", function(e) {
   var routeNumber = e.target.value;
   if (routeNumber === "MFL") {routeNumber = "Market-Frankford Line";}
   if (routeNumber === "BSL") {routeNumber = "Broad Street Line";}
-  
+
   filterRoutes(map_routes, routeNumber);
   filterStops(map_routes, routeNumber);
 });

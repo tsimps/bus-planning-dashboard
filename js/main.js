@@ -323,6 +323,28 @@ function makeRailStopPopups(coordinates, map, e) {
   });
 }
 
+function makeRoutePopups(coordinates, map, e){
+  var description = [
+    "<h5>" +
+    "Route " +
+    e.features[0].properties.Route +
+    "</h5>" +
+    "<p>" +
+    "Average Weekday Ridership: " +
+    Math.round(e.features[0].properties.Average_Weekday_Passengers).toLocaleString() + "<br>" +
+    "Operating Ratio: " + e.features[0].properties.Operating_Ratio + "%" + "<br>" +
+    "Vehicles Used: " + e.features[0].properties.Vehicle_Group +
+    "</p>"
+  ];
+
+  // put up a popup
+  new mapboxgl.Popup({ offset: [0, -15] })
+  .setLngLat(coordinates)
+  .setHTML(description)
+  .addTo(map);
+  //console.log("making a popup");
+}
+
 function makeRoutesVisible(map){
   map.setLayoutProperty("busRoutes", "visibility", "visible");
   map.setLayoutProperty("trolleyRoutes", "visibility", "visible");

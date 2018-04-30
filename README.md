@@ -9,9 +9,9 @@
 - [x] add subway data
 - [x] add trolley data
 - [ ] refactor api calls for smaller JSON files
-- [ ] general cleanup 1
-- [ ] refactor stop mapping functions and popups
-- [ ] split out javascript files
+- [x] general cleanup 1
+- [x] refactor stop mapping functions and popups
+- [x] split out javascript files
 - [ ] add regional rail data
 
 
@@ -43,11 +43,11 @@
 - [x] refactor to add all routes of different modes at once 
 - [ ] populate a dropdown list as the user types a route number
 - [x] allow user to click to clear
-- [ ] add checkboxes to remove suburban routes
+- [x] add checkboxes to remove suburban routes
 - [ ] add layer control
 
 ## performance page
-- [ ] add checkboxes to remove suburban routes
-- [ ] add preset buttons
+- [x] add checkboxes to remove suburban routes
+- [x] add preset buttons
 - [ ] add popups
 

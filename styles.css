@@ -239,7 +239,7 @@ html, body {
 .map {
   position: relative;
   height: 700px;
-  z-index: 10;
+  z-index: 9;
 
 }
 

@@ -173,13 +173,10 @@
       <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
           <h4> Performance Analytics </h4>
-
-          <div style="padding:5px;">
-            <button class="mdl-button mdl-js-button mdl-button--raised" id="filterSuburbanButton">
-              Filter Suburban Routes
-            </button>
-          </div>
-
+          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="suburbanSwitch">
+            <input type="checkbox" id="suburbanSwitch" class="mdl-switch__input" checked>
+            <span class="mdl-switch__label">Show Suburban Routes</span>
+          </label>
           <br><br><p> Filter by Operating Ratio </p><br><br>
           <div id = "slider1" class="noUi-target noUi-ltr noUi-horizontal">
           </div>
@@ -230,6 +227,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/stops_map.js"></script>
+<script src="js/performance_map.js"></script>
+<script src="js/route_map.js"></script>
 
 </body>
 </html>

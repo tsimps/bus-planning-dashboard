@@ -6748,7 +6748,7 @@ input.mdl-button[type="submit"] {
   height: 0;
   width: 0;
   visibility: hidden;
-  z-index: -1; }
+  z-index: 10; }
   .mdl-menu__container.is-visible, .mdl-menu__container.is-animating {
     z-index: 999;
     visibility: visible; }

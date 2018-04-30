@@ -193,16 +193,20 @@ map_routes.on("click", function(e) {
   }
 
   map_routes.on("click", "busRoutes", function(e) {
-    layerClicking(e);
+    if(popupTracker === false){layerClicking(e);}
+    popupTracker = true;
   });
   map_routes.on("click", "trolleyRoutes", function(e) {
-    layerClicking(e);
+    if(popupTracker === false){layerClicking(e);}
+    popupTracker = true;
   });
   map_routes.on("click", "mflRoute", function(e) {
-    layerClicking(e);
+    if(popupTracker === false){layerClicking(e);}
+    popupTracker = true;
   });
   map_routes.on("click", "bslRoute", function(e) {
-    layerClicking(e);
+    if(popupTracker === false){layerClicking(e);}
+    popupTracker = true;
   });
 
   if (layerClick === false && popupTracker === false) {

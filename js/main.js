@@ -341,7 +341,11 @@ function makeRoutePopups(coordinates, map, e){
   new mapboxgl.Popup({ offset: [0, -15] })
   .setLngLat(coordinates)
   .setHTML(description)
-  .addTo(map);
+  .addTo(map)
+  .on('close', function(x) {
+    //console.log('closed');
+    popupTracker = false;
+  });
   //console.log("making a popup");
 }
 

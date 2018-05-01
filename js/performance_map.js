@@ -95,8 +95,12 @@ map_performance.on("load", function() {
   addSeptaRouteSources(map_performance);
   addRoutesLayer(map_performance);
 
+  addSeptaStopSources(map_performance);
+  addStopsLayer(map_performance);
+
   // mute the routes layers until a route is chosen
   makeRoutesInvisible(map_performance);
+  makeStopsInvisible(map_performance);
 
 
   slider1.noUiSlider.on('update', function(values) {
@@ -105,6 +109,7 @@ map_performance.on("load", function() {
     var low = parseInt(values[0]);
     var high = parseInt(values[1]);
     var filter = [];
+    makeStopsInvisible(map_performance);
 
     // take out both
     if (suburbanFilter === true && cityFilter === true) {
@@ -138,7 +143,43 @@ map_performance.on("load", function() {
     makeRoutesVisible(map_performance);
   });
 
-
   // ADD USER SELECTION FEATURE
+  function layerClicking(e) {
+    makeStopsInvisible(map_performance);
+    layerClick = true;
+    coordinates = e.lngLat;
+    makeRoutePopups(coordinates, map_performance, e);
+    var routeNumber = e.features[0].properties.Route;
+    filterStops(map_performance, routeNumber);
+    makeStopsVisible(map_performance);
+  }
+
+  var mapRoutesLayers = ["busRoutes", "trolleyRoutes", "mflRoute", "bslRoute"];
+  _.each(mapRoutesLayers, function(x) {
+
+    // manage the cursor over each layer
+    map_performance.on("mouseenter", x, function() {
+      map_performance.getCanvas().style.cursor = "pointer";
+    });
+    map_performance.on("mouseleave", "busStops", function() {
+      map_performance.getCanvas().style.cursor = "";
+    });
+  });
+
+  map_performance.on("click", "busRoutes", function(e) {
+    layerClicking(e);
+  });
+
+  map_performance.on("click", "trolleyRoutes", function(e) {
+    layerClicking(e);
+  });
+
+  map_performance.on("click", "mflRoute", function(e) {
+    layerClicking(e);
+  });
+
+  map_performance.on("click", "bslRoute", function(e) {
+    layerClicking(e);
+  });
 
 });

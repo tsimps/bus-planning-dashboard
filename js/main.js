@@ -144,14 +144,22 @@ function addStopsLayer(map) {
         property: "Average_Weekday_Ridership",
         type: "exponential",
         stops: [
-          [0, 2],
-          [50, 4],
-          [100, 6],
-          [250, 8],
-          [500, 12],
-          [1000, 15],
-          [3000, 20],
-          [5000, 25]
+          [{zoom: 14, value: 0}, 2],
+          [{zoom: 14, value: 50}, 4],
+          [{zoom: 14, value: 100}, 6],
+          [{zoom: 14, value: 250}, 8],
+          [{zoom: 14, value: 500}, 12],
+          [{zoom: 14, value: 1000}, 15],
+          [{zoom: 14, value: 3000}, 20],
+          [{zoom: 14, value: 5000}, 25],
+          [{zoom: 15.5, value: 0}, 6],
+          [{zoom: 15.5, value: 50}, 10],
+          [{zoom: 15.5, value: 100}, 16],
+          [{zoom: 15.5, value: 250}, 20],
+          [{zoom: 15.5, value: 500}, 28],
+          [{zoom: 15.5, value: 1000}, 34],
+          [{zoom: 15.5, value: 3000}, 40],
+          [{zoom: 15.5, value: 5000}, 45],
         ]
       }
     }
@@ -167,14 +175,22 @@ function addStopsLayer(map) {
         property: "Average_Weekday_Ridership",
         type: "exponential",
         stops: [
-          [0, 2],
-          [50, 4],
-          [100, 6],
-          [250, 8],
-          [500, 12],
-          [1000, 15],
-          [3000, 20],
-          [5000, 25]
+          [{zoom: 14, value: 0}, 2],
+          [{zoom: 14, value: 50}, 4],
+          [{zoom: 14, value: 100}, 6],
+          [{zoom: 14, value: 250}, 8],
+          [{zoom: 14, value: 500}, 12],
+          [{zoom: 14, value: 1000}, 15],
+          [{zoom: 14, value: 3000}, 20],
+          [{zoom: 14, value: 5000}, 25],
+          [{zoom: 15.5, value: 0}, 6],
+          [{zoom: 15.5, value: 50}, 10],
+          [{zoom: 15.5, value: 100}, 16],
+          [{zoom: 15.5, value: 250}, 20],
+          [{zoom: 15.5, value: 500}, 28],
+          [{zoom: 15.5, value: 1000}, 34],
+          [{zoom: 15.5, value: 3000}, 40],
+          [{zoom: 15.5, value: 5000}, 45],
         ]
       }
     }

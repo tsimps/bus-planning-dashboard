@@ -52,6 +52,30 @@ suburbanSwitch.addEventListener('change', function(){
 
 });
 
+var cityFilter = false;
+var citySwitch = document.getElementById('citySwitch');
+
+citySwitch.addEventListener('change', function(){
+
+  // if the switch is on:
+  if (citySwitch.checked) {
+    cityFilter = false;
+    console.log("checked");
+  }
+
+  //otherwise:
+  else {
+    cityFilter = true;
+    console.log("unchecked");
+  }
+
+  // update the slider to get refiltering process
+  slider.noUiSlider.set([null, null]);
+
+});
+
+
+
 document.getElementById('lowPerformanceButton').addEventListener('click', function(){
   slider1.noUiSlider.set( [0, 20] );
 });
@@ -82,29 +106,36 @@ map_performance.on("load", function() {
     var high = parseInt(values[1]);
     var filter = [];
 
-    // if suburban filter is true...
-    if (suburbanFilter === true) {
+    // take out both
+    if (suburbanFilter === true && cityFilter === true) {
+      filterSurface = ["all", ["!=", "Revenue", "City"], ["!=", "Revenue", "Suburban"], [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
+      filterRail = ["all", [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
+    }
+
+    // take out the suburban
+    else if (suburbanFilter === true && cityFilter === false) {
       filterSurface = ["all", ["==", "Revenue", "City"], [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
       filterRail = ["all", [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
-      map_performance.setFilter("busRoutes", filterSurface);
-      map_performance.setFilter("trolleyRoutes", filterSurface);
-      map_performance.setFilter("mflRoute", filterRail);
-      map_performance.setFilter("bslRoute", filterRail);
+    }
 
-      makeRoutesVisible(map_performance);
+    // take out the city
+    else if (suburbanFilter === false && cityFilter === true) {
+      filterSurface = ["all", ["!=", "Revenue", "City"], [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
+      filterRail = ["all", [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
     }
 
     // if not...
     else {
       // show the routes that have operating ration between vales[0] and values[1]
-      filter = ["all", [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
-      map_performance.setFilter("busRoutes", filter);
-      map_performance.setFilter("trolleyRoutes", filter);
-      map_performance.setFilter("mflRoute", filter);
-      map_performance.setFilter("bslRoute", filter);
-
-      makeRoutesVisible(map_performance);
+      filterSurface = ["all", [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
+      filterRail = ["all", [">=", "Operating_Ratio", low], ["<=", "Operating_Ratio", high]];
     }
+
+    map_performance.setFilter("busRoutes", filterSurface);
+    map_performance.setFilter("trolleyRoutes", filterSurface);
+    map_performance.setFilter("mflRoute", filterRail);
+    map_performance.setFilter("bslRoute", filterRail);
+    makeRoutesVisible(map_performance);
   });
 
 

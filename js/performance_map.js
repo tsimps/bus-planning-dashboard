@@ -102,6 +102,34 @@ map_performance.on("load", function() {
   makeRoutesInvisible(map_performance);
   makeStopsInvisible(map_performance);
 
+  // BUS STOP POPUPS
+  map_performance.on("click", "busStops", function(e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    makeSurfaceStopPopups(coordinates, map_performance, e);
+    popupTracker = true;
+  });
+
+  // TROLLEY STOP POPUPS
+  map_performance.on("click", "trolleyStops", function(e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    makeSurfaceStopPopups(coordinates, map_performance, e);
+    popupTracker = true;
+  });
+
+  // MFL STOP POPUPS
+  map_performance.on("click", "mflStops", function(e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    makeRailStopPopups(coordinates, map_performance, e);
+    popupTracker = true;
+  });
+
+  // BSL STOP POPUPS
+  map_performance.on("click", "bslStops", function(e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    makeRailStopPopups(coordinates, map_performance, e);
+    popupTracker = true;
+  });
+
 
   slider1.noUiSlider.on('update', function(values) {
     //console.log(values[0], values[1]);
@@ -151,6 +179,7 @@ map_performance.on("load", function() {
     makeRoutePopups(coordinates, map_performance, e);
     var routeNumber = e.features[0].properties.Route;
     filterStops(map_performance, routeNumber);
+    filterRoutes(map_performance, routeNumber);
     makeStopsVisible(map_performance);
   }
 
@@ -166,20 +195,35 @@ map_performance.on("load", function() {
     });
   });
 
-  map_performance.on("click", "busRoutes", function(e) {
-    layerClicking(e);
-  });
+  map_performance.on("click", function(e) {
 
-  map_performance.on("click", "trolleyRoutes", function(e) {
-    layerClicking(e);
-  });
+    // boolean for tracking clicks on a layer
+    var layerClick = false;
 
-  map_performance.on("click", "mflRoute", function(e) {
-    layerClicking(e);
-  });
+    map_performance.on("click", "busRoutes", function(e) {
+      layerClicking(e);
+      popupTracker = true;
+    });
 
-  map_performance.on("click", "bslRoute", function(e) {
-    layerClicking(e);
-  });
+    map_performance.on("click", "trolleyRoutes", function(e) {
+      layerClicking(e);
+      popupTracker = true;
+    });
 
+    map_performance.on("click", "mflRoute", function(e) {
+      layerClicking(e);
+      popupTracker = true;
+    });
+
+    map_performance.on("click", "bslRoute", function(e) {
+      layerClicking(e);
+      popupTracker = true;
+    });
+
+    if (layerClick === false && popupTracker === false) {
+
+      // clear the map
+      slider.noUiSlider.set([null, null]);
+    }
+  });
 });

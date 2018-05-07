@@ -71,8 +71,8 @@ map_stops.on("load", function() {
       keys: ['features.properites.Station_Name']
     };
 
-    var f = new Fuse(books, options);
-var result = f.search('brwn');
+    //var f = new Fuse(books, options);
+    //var result = f.search('brwn');
 
     // when the value is null, don't filter
     if (value == "") {

@@ -23,6 +23,9 @@ var stopsRouteLink =
 var neighborhoodsLink =
 "https://raw.githubusercontent.com/tsimps/midterm-project/master/data/neighborhoods.geojson";
 
+
+var newBusDataLink = "https://raw.githubusercontent.com/tsimps/bus-planning-dashboard/master/data/busData.geojson";
+
 var stopNames = []; //used to hold stop IDs to search against
 var routeSearchInput = document.getElementById("routeSearch");
 
@@ -100,7 +103,7 @@ function addSeptaStopSources(map) {
   });
   map.addSource("busStops", {
     type: "geojson",
-    data: septaBusStops
+    data: newBusDataLink
   });
 }
 
@@ -304,8 +307,8 @@ function makeSurfaceStopPopups(coordinates, map, e) {
     "Stop ID: " +
     e.features[0].properties.Stop_ID +
     "<br>" +
-    "Direction: " +
-    e.features[0].properties.Direction +
+    "Routes that Stop Here: " +
+    e.features[0].properties.routeNumbers +
     "<br>" +
     "Average Daily Boards: " +
     Math.round(e.features[0].properties.Weekday_Boards).toLocaleString() +

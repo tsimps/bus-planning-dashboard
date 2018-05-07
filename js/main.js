@@ -25,6 +25,7 @@ var neighborhoodsLink =
 
 
 var newBusDataLink = "https://raw.githubusercontent.com/tsimps/bus-planning-dashboard/master/data/busData.geojson";
+var newTrolleyDataLink = "https://raw.githubusercontent.com/tsimps/bus-planning-dashboard/master/data/trolleyData.geojson";
 
 var stopNames = []; //used to hold stop IDs to search against
 var routeSearchInput = document.getElementById("routeSearch");
@@ -99,7 +100,7 @@ function addSeptaStopSources(map) {
   });
   map.addSource("trolleyStops", {
     type: "geojson",
-    data: septaTrolleyStops
+    data: newTrolleyDataLink
   });
   map.addSource("busStops", {
     type: "geojson",
@@ -216,12 +217,16 @@ function addStopsLayer(map) {
           [{zoom: 14, value: 250}, 8],
           [{zoom: 14, value: 500}, 12],
           [{zoom: 14, value: 1000}, 15],
+          [{zoom: 14, value: 3000}, 20],
+          [{zoom: 14, value: 5000}, 25],
           [{zoom: 15.5, value: 0}, 6],
           [{zoom: 15.5, value: 50}, 10],
           [{zoom: 15.5, value: 100}, 16],
           [{zoom: 15.5, value: 250}, 20],
           [{zoom: 15.5, value: 500}, 28],
           [{zoom: 15.5, value: 1000}, 34],
+          [{zoom: 15.5, value: 3000}, 40],
+          [{zoom: 15.5, value: 5000}, 45],
         ]
       }
     }
@@ -245,12 +250,16 @@ function addStopsLayer(map) {
           [{zoom: 14, value: 250}, 8],
           [{zoom: 14, value: 500}, 12],
           [{zoom: 14, value: 1000}, 15],
+          [{zoom: 14, value: 3000}, 20],
+          [{zoom: 14, value: 5000}, 25],
           [{zoom: 15.5, value: 0}, 6],
           [{zoom: 15.5, value: 50}, 10],
           [{zoom: 15.5, value: 100}, 16],
           [{zoom: 15.5, value: 250}, 20],
           [{zoom: 15.5, value: 500}, 28],
           [{zoom: 15.5, value: 1000}, 34],
+          [{zoom: 15.5, value: 3000}, 40],
+          [{zoom: 15.5, value: 5000}, 45],
         ]
       }
     }

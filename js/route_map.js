@@ -18,7 +18,22 @@ var routeMapIsFresh = true;
 map_routes.on("load", function() {
 
 
-  addSeptaStopSources(map_routes);
+  map_routes.addSource("mflStops", {
+    type: "geojson",
+    data: septaMFLStops
+  });
+  map_routes.addSource("bslStops", {
+    type: "geojson",
+    data: septaBSLStops
+  });
+  map_routes.addSource("trolleyStops", {
+    type: "geojson",
+    data: septaTrolleyStops
+  });
+  map_routes.addSource("busStops", {
+    type: "geojson",
+    data: septaBusStops
+  });
   addStopsLayer(map_routes);
 
   addSeptaRouteSources(map_routes);

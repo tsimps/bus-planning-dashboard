@@ -95,7 +95,22 @@ map_performance.on("load", function() {
   addSeptaRouteSources(map_performance);
   addRoutesLayer(map_performance);
 
-  addSeptaStopSources(map_performance);
+  map_performance.addSource("mflStops", {
+    type: "geojson",
+    data: septaMFLStops
+  });
+  map_performance.addSource("bslStops", {
+    type: "geojson",
+    data: septaBSLStops
+  });
+  map_performance.addSource("trolleyStops", {
+    type: "geojson",
+    data: septaTrolleyStops
+  });
+  map_performance.addSource("busStops", {
+    type: "geojson",
+    data: septaBusStops
+  });
   addStopsLayer(map_performance);
 
   // mute the routes layers until a route is chosen

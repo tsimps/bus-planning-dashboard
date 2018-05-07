@@ -15,6 +15,10 @@ var septaBSLStops =
 "https://opendata.arcgis.com/datasets/19b1b9b8a6a64169a0d0bea590ad131e_0.geojson";
 var septaBSLRoute =
 "https://opendata.arcgis.com/datasets/f58fba791c934381bfc055cda70b7d18_0.geojson";
+var septaRRStops =
+'https://opendata.arcgis.com/datasets/819dfd2785b64c10b7cbacde1d7b02f9_0.geojson';
+var septaRRRoutes =
+"https://opendata.arcgis.com/datasets/0bc475a334494b8796d87ce546e90bb4_0.geojson";
 
 var shelterDatabaseLink =
 "https://raw.githubusercontent.com/tsimps/tsimps.github.io/master/data/shelter_json_31318.geojson";
@@ -420,4 +424,70 @@ function makeStopsInvisible(map){
   map.setLayoutProperty("trolleyStops", "visibility", "none");
   map.setLayoutProperty("bslStops", "visibility", "none");
   map.setLayoutProperty("mflStops", "visibility", "none");
+}
+
+function mapRegionalRail(map){
+  map.addSource("rrStops", {
+    type: "geojson",
+    data: septaRRStops
+  });
+  map.addLayer({
+    id: "rrStops",
+    type: "circle",
+    source: "rrStops",
+    paint: {
+      "circle-color": "#45A29E",
+      "circle-opacity": 0.75,
+      "circle-radius": {
+        property: "Weekday_Total_Boards",
+        type: "exponential",
+        stops: [
+          [{zoom: 14, value: 0}, 2],
+          [{zoom: 14, value: 50}, 4],
+          [{zoom: 14, value: 100}, 6],
+          [{zoom: 14, value: 250}, 8],
+          [{zoom: 14, value: 500}, 12],
+          [{zoom: 14, value: 1000}, 15],
+          [{zoom: 14, value: 3000}, 20],
+          [{zoom: 14, value: 5000}, 25],
+          [{zoom: 15.5, value: 0}, 6],
+          [{zoom: 15.5, value: 50}, 10],
+          [{zoom: 15.5, value: 100}, 16],
+          [{zoom: 15.5, value: 250}, 20],
+          [{zoom: 15.5, value: 500}, 28],
+          [{zoom: 15.5, value: 1000}, 34],
+          [{zoom: 15.5, value: 3000}, 40],
+          [{zoom: 15.5, value: 5000}, 45],
+        ]
+      }
+    }
+  });
+}
+function makeRRStopPopups(coordinates, map, e) {
+  var description = [
+    "<h5>" +
+    e.features[0].properties.Station_Name +
+    "</h5>" +
+    "<p>" +
+    "Stop ID: " +
+    e.features[0].properties.Stop_ID +
+    "<br>" +
+    "Average Weekday Ridership: " +
+    Math.round(e.features[0].properties["Weekday_Total_Boards"]).toLocaleString() +
+    "<br>" +
+    "Average Saturday Ridership: " +
+    Math.round(e.features[0].properties["Saturday_Total_Boards"]).toLocaleString() +
+    "<br>" +
+    "Average Sunday Ridership: " +
+    Math.round(e.features[0].properties["Sunday_Total_Boards"]).toLocaleString() +
+    "</p>"
+  ];
+  new mapboxgl.Popup({ offset: [0, -15] })
+  .setLngLat(coordinates)
+  .setHTML(description)
+  .addTo(map)
+  .on('close', function(x) {
+    //console.log('closed');
+    popupTracker = false;
+  });
 }

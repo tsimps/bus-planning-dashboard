@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="A web based transit planning application">
+  <meta name="description" content="A web based transit analysis application">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <title>Transit Planning Dashboard</title>
+  <title>Transit Analysis Tool</title>
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -55,7 +55,7 @@
     <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
 
       <div class="mdl-layout--large-screen-only mdl-layout__header-row mdl-color-text--primary">
-        <h3>Transit Planning Dashboard</h3>
+        <h3>Transit Analysis Tool</h3>
       </div>
 
       <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
@@ -86,16 +86,42 @@
                 <label class="mdl-textfield__label" for="stopNameSearch">Stop Name...</label>
               </div>
             </form>
+            <br><br><p> Filter by Weekday Boards </p><br><br>
+            <div id = "slider2" class="noUi-target noUi-ltr noUi-horizontal"> </div>
+            <div>
+              <br><br>
+              <p> Quick Sets </p>
+              <div style="padding:5px;">
+                <button class="mdl-button mdl-js-button mdl-button--raised" id="lowRidershipButton">
+                  Low Ridership Stops
+                </button>
+              </div>
+              <div style="padding:5px;">
+                <button class="mdl-button mdl-js-button mdl-button--raised" id="mediumRidershipButton">
+                  Medium Ridership Stops
+                </button>
+              </div>
+              <div style="padding:5px;">
+                <button class="mdl-button mdl-js-button mdl-button--raised" id="highRidershipButton">
+                  High Ridership Stops
+                </button>
+              </div>
+              <div style="padding:5px;">
+                <button class="mdl-button mdl-js-button mdl-button--raised" id="fullRidershipButton">
+                  Full System
+                </button>
+              </div>
+            </div>
             <canvas id="stopsChart" height="300"></canvas>
           </div>
 
           <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
 
             <!-- Left aligned menu below button -->
-            <button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon">
+            <button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon" >
               <i class="material-icons">more_vert</i>
             </button>
-            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+            <ul class="mdl-menu is-visible mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
             for="demo-menu-lower-left">
             <div>
               <li class="mdl-menu__item">

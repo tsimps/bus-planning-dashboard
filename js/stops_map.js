@@ -95,6 +95,72 @@ map_stops.on("load", function() {
       map_stops.getCanvas().style.cursor = "";
     });
   });
+
+  /*
+  busStops.features.forEach(function(feature) {
+    var label = feature.properties.Weekday_Boards;
+
+    map_stops.addLayer({
+      id: "busStopsLabels",
+      type: "symbol",
+      source: "busStops",
+      layout: {
+        "text-field": label
+      },
+      paint: {
+      },
+      minzoom: 15
+    });
+  });
+  */
+
+  var slider2 = document.getElementById('slider2');
+
+  noUiSlider.create(slider2, {
+    start: [0, 35000],
+    connect: true,
+    step: 10,
+    behaviour: 'drag',
+    format: wNumb({
+      decimals: 0,
+    }),
+    range: {
+		'min': [  0 ],
+		'30%': [  250 ],
+		'70%': [  5000 ],
+		'max': [ 35000 ]
+	},
+    tooltips: [ true, true ],
+  });
+
+  slider2.noUiSlider.on('update', function(values) {
+
+    var low = parseInt(values[0]);
+    var high = parseInt(values[1]);
+
+    filterSurface = ["all",  [">=", "Weekday_Boards", low], ["<=", "Weekday_Boards", high]];
+    filterRail = ["all", [">=", "Average_Weekday_Ridership", low], ["<=", "Average_Weekday_Ridership", high]];
+
+    map_stops.setFilter("busStops", filterSurface);
+    map_stops.setFilter("trolleyStops", filterSurface);
+    map_stops.setFilter("mflStops", filterRail);
+    map_stops.setFilter("bslStops", filterRail);
+
+  });
+
+  document.getElementById('lowRidershipButton').addEventListener('click', function(){
+    slider2.noUiSlider.set( [0, 5] );
+  });
+  document.getElementById('mediumRidershipButton').addEventListener('click', function(){
+    slider2.noUiSlider.set( [40, 400] );
+  });
+  document.getElementById('highRidershipButton').addEventListener('click', function(){
+    slider2.noUiSlider.set( [400, 35000] );
+  });
+  document.getElementById('fullRidershipButton').addEventListener('click', function(){
+    slider2.noUiSlider.set( [0, 35000] );
+  });
+
 });
 
 // LAYER CONTROL
@@ -102,6 +168,10 @@ var busBox = document.querySelector('input[id="bus"]');
 var trolleyBox = document.querySelector('input[id="trolley"]');
 var mflBox = document.querySelector('input[id="mfl"]');
 var bslBox = document.querySelector('input[id="bsl"]');
+
+
+document.getElementById("demo-menu-lower-left").click();
+
 
 var layerBoxes = [busBox, trolleyBox, mflBox, bslBox];
 

@@ -46,6 +46,26 @@ var centerCoordinates = [-75.15901565579941, 39.94756033306919];
 mapboxgl.accessToken =
 "pk.eyJ1IjoidGFuZHJld3NpbXBzb24iLCJhIjoiY2ludXlsY3ZsMTJzN3Rxa2oyNnplZjB1ZyJ9.bftIKd0sAwvSIGWxIDbSSw";
 
+
+// INFORMATION POPUP
+var infoText = "<p> Welcome to the Transit Analysis Tool. This tool is still in development, so feel free to get in touch for additional features that could be useful. Data is courtesy of SEPTA. </p>" +
+"<h5> How This Works </h5> <p> There are three pages to this tool. The Stops page shows ridership data aggregated to the stop level for the whole SEPTA system. <br><br>"+
+"The Routes page allows the user to choose a route in the system and see ridership only for that route (i.e. if there are 4 routes that use a stop, this page will only show you the ridership for the chosen route.)<br><br>"+
+"The Operating Perfomance page allows the user to understand the performance of the system from a operating ratio standpoint (i.e. profitability)</p>";
+
+$('#info').click(function () {
+    showDialog({
+        title: 'About',
+        text: infoText
+    });
+});
+
+
+
+
+
+
+
 // helper function that takes in a route number and filters to that route
 function filterRoutes(map, routeNumber) {
   if (routeNumber == "") {

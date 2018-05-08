@@ -14,6 +14,53 @@ var map_stops = new mapboxgl.Map({
   zoom: 11
 });
 
+var features = [];
+
+function goToStop(stopID, map = map_stops){
+  map.flyTo({
+    center: centerCoordinates,
+    zoom: 11
+  });
+
+  map.setFilter("busStops", ["==", "Stop_ID", stopID]);
+  map.setLayoutProperty("busStops", "visibility", "visible");
+
+  map.setFilter("trolleyStops", ["==", "Stop_ID", stopID]);
+  map.setLayoutProperty("trolleyStops", "visibility", "visible");
+
+  map.setFilter("mflStops", ["==", "Stop_ID", stopID]);
+  map.setLayoutProperty("mflStops", "visibility", "visible");
+
+  map.setFilter("bslStops", ["==", "Stop_ID", stopID]);
+  map.setLayoutProperty("bslStops", "visibility", "visible");
+
+  map.setFilter("rrStops", ["==", "Stop_ID", stopID]);
+  map.setLayoutProperty("rrStops", "visibility", "visible");
+
+  features = map_stops.querySourceFeatures("busStops");
+  features = _.union(features, map_stops.querySourceFeatures("rrStops"));
+  features = _.union(features, map_stops.querySourceFeatures("trolleyStops"));
+  features = _.union(features, map_stops.querySourceFeatures("mflStops"));
+  features = _.union(features, map_stops.querySourceFeatures("bslStops"));
+
+  //console.log(features);
+
+  var selection = [];
+  _.each(features, function(e) {
+    if(e.properties.Stop_ID == stopID){
+      selection.push(e);
+    }
+  });
+  //console.log(selection);
+
+  map.flyTo({
+    center: selection[0].geometry.coordinates,
+    zoom: 15
+  });
+
+  //map.setZoom(15);
+}
+
 // on load, add the sources and layers
 map_stops.on("load", function() {
 
@@ -26,6 +73,7 @@ map_stops.on("load", function() {
   var stopIDSearch = document.getElementById("stopSearch");
   var stopNameSearchInput = document.getElementById("stopNameSearch");
 
+  /*
   // start up the stopID search event listener
   stopIDSearch.addEventListener("keyup", function(e) {
     var value = e.target.value.trim().toLowerCase();
@@ -46,6 +94,7 @@ map_stops.on("load", function() {
       map_stops.setFilter("rrStops", ["==", "Stop_ID", parseInt(value)]);
     }
   });
+  */
 
   // start up the stopNameSearch  event listener
   stopNameSearch.addEventListener("keyup", function(e) {
@@ -65,13 +114,58 @@ map_stops.on("load", function() {
       map_stops.setFilter("bslStops", null);
       map_stops.setFilter("rrStops", null);
     } else {
-      // if there is a value present, filter based on that value
-      map_stops.setFilter("busStops", ["==", "Stop_Name", value]);
-      map_stops.setFilter("trolleyStops", ["==", "Stop_Name", value]);
-      map_stops.setFilter("mflStops", ["==", "Station", value]);
-      map_stops.setFilter("bslStops", ["==", "Station", value]);
-      map_stops.setFilter("rrStops", ["==", "Station_Name", value]);
+
     }
+
+    document.getElementById('auto-complete-list').innerHTML = "";
+
+    var result = stopFuse.search(value);
+    //console.log(result[0]);
+
+    var div = document.createElement('div');
+
+    div.className = 'row';
+
+    div.innerHTML =
+    '<ul class="demo-list-three mdl-list">' +
+    '<li class="mdl-list__item mdl-list__item--two-line">' +
+    '<span class="mdl-list__item-primary-content">' +
+    '<span>' + result[0].item.Stop_Name + '</span>' +
+    '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[0].item.Stop_ID + '</span>' +
+    '</span>' +
+    '<span class="mdl-list__item-secondary-content">' +
+    '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[0].item.Stop_ID+')"> Go Here </button>' +
+    '</span>' +
+    '</li>' +
+    '</ul>' +
+    '<ul class="demo-list-three mdl-list">' +
+    '<li class="mdl-list__item mdl-list__item--two-line">' +
+    '<span class="mdl-list__item-primary-content">' +
+    '<span>' + result[1].item.Stop_Name + '</span>' +
+    '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[1].item.Stop_ID + '</span>' +
+    '</span>' +
+    '<span class="mdl-list__item-secondary-content">' +
+    '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[1].item.Stop_ID+')"> Go Here </button>' +
+    '</span>' +
+    '</li>' +
+    '</ul>' +
+    '<ul class="demo-list-three mdl-list">' +
+    '<li class="mdl-list__item mdl-list__item--two-line">' +
+    '<span class="mdl-list__item-primary-content">' +
+    '<span>' + result[3].item.Stop_Name + '</span>' +
+    '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[3].item.Stop_ID + '</span>' +
+    '</span>' +
+    '<span class="mdl-list__item-secondary-content">' +
+    '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[3].item.Stop_ID+')"> Go Here </button>' +
+    '</span>' +
+    '</li>' +
+    '</ul>';
+
+
+
+    //result[0].item.Stop_Name + "<br>" +  result[1].item.Stop_Name + "<br>" +  result[3].item.Stop_Name;
+
+    document.getElementById('auto-complete-list').appendChild(div);
   });
 
   // BUS STOP POPUPS
@@ -113,23 +207,6 @@ map_stops.on("load", function() {
     });
   });
 
-  /*
-  busStops.features.forEach(function(feature) {
-  var label = feature.properties.Weekday_Boards;
-
-  map_stops.addLayer({
-  id: "busStopsLabels",
-  type: "symbol",
-  source: "busStops",
-  layout: {
-  "text-field": label
-},
-paint: {
-},
-minzoom: 15
-});
-});
-*/
 
 var slider2 = document.getElementById('slider2');
 

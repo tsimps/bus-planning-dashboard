@@ -79,20 +79,15 @@
         <div class="mdl-grid">
 
           <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
-            <h4> Search </h4>
-            <form action="#">
-              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="stopSearch">
-                <label class="mdl-textfield__label" for="stopSearch">Stop ID...</label>
-                <span class="mdl-textfield__error">Input is not a number!</span>
-              </div>
-            </form>
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="stopNameSearch">
-                <label class="mdl-textfield__label" for="stopNameSearch">Stop Name...</label>
+                <label class="mdl-textfield__label" for="stopNameSearch">Stop Name/ID...</label>
               </div>
             </form>
+            <div id="auto-complete-list">
+
+            </div>
             <br><br><p> Filter by Weekday Boards </p><br><br>
             <div id = "slider2" class="noUi-target noUi-ltr noUi-horizontal"> </div>
             <div>
@@ -370,6 +365,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.0/fuse.min.js"></script>
+<script src="js/papaparse.min.js"></script>
 <script src="js/main.js"></script>
 <script src="js/stops_map.js"></script>
 <script src="js/performance_map.js"></script>

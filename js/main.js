@@ -60,8 +60,33 @@ $('#info').click(function () {
     });
 });
 
+var options = {
+  shouldSort: true,
+  includeScore: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 16,
+  minMatchCharLength: 2,
+  keys: [
+    "Stop_ID",
+    "Stop_Name"
+]
+};
 
+var stopFuse;
+//var result = stopFuse.search("");
 
+var stopList = [];
+Papa.parse("https://raw.githubusercontent.com/tsimps/bus-planning-dashboard/master/data/searchData.csv", {
+	download: true,
+  header: true,
+	complete: function(results) {
+		//console.log(results);
+    stopList = results.data;
+    stopFuse = new Fuse(stopList, options); // "list" is the item array
+	}
+});
 
 
 
@@ -368,7 +393,7 @@ function addRoutesLayer(map) {
     type: "line",
     source: "busRoutes",
     paint: {
-      "line-width": 3,
+      "line-width": 5,
       "line-color": "#45A29E"
     },
     filter: ("routes", ["==", "School_Route", "No"])
@@ -378,7 +403,7 @@ function addRoutesLayer(map) {
     type: "line",
     source: "trolleyRoutes",
     paint: {
-      "line-width": 3,
+      "line-width": 5,
       "line-color": "#49b048"
     }
   });
@@ -405,7 +430,7 @@ function addRoutesLayer(map) {
     type: "line",
     source: "rrRoutes",
     paint: {
-      "line-width": 3,
+      "line-width": 5,
       "line-color": "#1f2833"
     }
   });

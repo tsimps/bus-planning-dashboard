@@ -65,7 +65,7 @@ map_routes.on("load", function() {
   noUiSlider.create(slider3, {
     start: [0, 200000],
     connect: true,
-    step: 10,
+    step: 100,
     behaviour: 'drag',
     format: wNumb({
       decimals: 0,

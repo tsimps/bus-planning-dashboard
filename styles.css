@@ -244,7 +244,7 @@ html, body {
 }
 
 #info {
-  background-color: #4DD0E1;
+  background-color: #45A29E;
 }
 
 #slider1 {
@@ -259,11 +259,21 @@ html, body {
   left: 5%;
 
 }
+#slider3 {
+  position:relative;
+	width: 80%;
+  left: 5%;
+
+}
 
 #slider1 .noUi-connect {
-	background: #1F2833;
+	background: #45A29E;
 }
 
 #slider2 .noUi-connect {
-	background: #1F2833;
+	background: #45A29E;
+}
+
+#slider3 .noUi-connect {
+	background: #45A29E;
 }

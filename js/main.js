@@ -73,22 +73,26 @@ function filterRoutes(map, routeNumber) {
     map.setFilter("trolleyRoutes", null);
     map.setFilter("mflRoute", null);
     map.setFilter("bslRoute", null);
+    map.setFilter("rrRoutes", null);
 
     // remove all stops
     map.setLayoutProperty("busStops", "visibility", "none");
     map.setLayoutProperty("trolleyStops", "visibility", "none");
     map.setLayoutProperty("mflStops", "visibility", "none");
-    map_routes.setLayoutProperty("bslStops", "visibility", "none");
+    map.setLayoutProperty("bslStops", "visibility", "none");
+    map.setLayoutProperty("rrStops", "visibility", "none");
 
   } else {
     map.setFilter("busRoutes", ["==", "Route", routeNumber]);
     map.setFilter("trolleyRoutes", ["==", "Route", routeNumber]);
     map.setFilter("mflRoute", ["==", "Route", routeNumber]);
     map.setFilter("bslRoute", ["==", "Route", routeNumber]);
+    map.setFilter("rrRoutes", ["==", "Route_Name", routeNumber]);
   }
 }
 
 function filterStops(map, routeNumber) {
+  //console.log(routeNumber);
   map.setFilter("busStops", ["==", "Route", routeNumber]);
   map.setLayoutProperty("busStops", "visibility", "visible");
 
@@ -100,11 +104,14 @@ function filterStops(map, routeNumber) {
 
   map.setFilter("bslStops", ["==", "Route", routeNumber]);
   map.setLayoutProperty("bslStops", "visibility", "visible");
+
+  map.setFilter("rrStops", ["==", "Line_Name", routeNumber]);
+  map.setLayoutProperty("rrStops", "visibility", "visible");
 }
 
 // function that adds all of the septa sources to a map
 
-function addSeptaStopSources(map) {
+function addSeptaStopSources(map, busAggregation = true) {
   var septaBusStops =
   "https://opendata.arcgis.com/datasets/e9cf307d8408475ab1188f126ccaa1ba_0.geojson";
   var septaTrolleyStops =
@@ -113,6 +120,8 @@ function addSeptaStopSources(map) {
   "https://opendata.arcgis.com/datasets/4496133dfe404fe2b534b13932473cd2_0.geojson";
   var septaBSLStops =
   "https://opendata.arcgis.com/datasets/19b1b9b8a6a64169a0d0bea590ad131e_0.geojson";
+  var septaRRStops =
+  'https://opendata.arcgis.com/datasets/819dfd2785b64c10b7cbacde1d7b02f9_0.geojson';
 
   map.addSource("mflStops", {
     type: "geojson",
@@ -122,14 +131,30 @@ function addSeptaStopSources(map) {
     type: "geojson",
     data: septaBSLStops
   });
-  map.addSource("trolleyStops", {
+  map.addSource("rrStops", {
     type: "geojson",
-    data: newTrolleyDataLink
+    data: septaRRStops
   });
-  map.addSource("busStops", {
-    type: "geojson",
-    data: newBusDataLink
-  });
+  if (busAggregation === true) {
+    map.addSource("busStops", {
+      type: "geojson",
+      data: newBusDataLink
+    });
+    map.addSource("trolleyStops", {
+      type: "geojson",
+      data: newTrolleyDataLink
+    });
+  }
+  else {
+    map.addSource("busStops", {
+      type: "geojson",
+      data: septaBusStops
+    });
+    map.addSource("trolleyStops", {
+      type: "geojson",
+      data: septaTrolleyStops
+    });
+  }
 }
 
 function addSeptaRouteSources(map) {
@@ -141,6 +166,8 @@ function addSeptaRouteSources(map) {
   "https://opendata.arcgis.com/datasets/f1f0530e1714417b8dee0dc07ce60104_0.geojson";
   var septaBSLRoute =
   "https://opendata.arcgis.com/datasets/f58fba791c934381bfc055cda70b7d18_0.geojson";
+  var septaRRRoutes =
+  "https://opendata.arcgis.com/datasets/0bc475a334494b8796d87ce546e90bb4_0.geojson";
 
   map.addSource("busRoutes", {
     type: "geojson",
@@ -158,9 +185,46 @@ function addSeptaRouteSources(map) {
     type: "geojson",
     data: septaMFLRoute
   });
+  map.addSource("rrRoutes", {
+    type: "geojson",
+    data: septaRRRoutes
+  });
 }
 
 function addStopsLayer(map) {
+  map.addLayer({
+    id: "rrStops",
+    type: "circle",
+    source: "rrStops",
+    paint: {
+      "circle-color": "#1f2833",
+      "circle-opacity": 0.5,
+      "circle-radius": {
+        property: "Weekday_Total_Boards",
+        type: "exponential",
+        stops: [
+          [{zoom: 14, value: 0}, 2],
+          [{zoom: 14, value: 50}, 4],
+          [{zoom: 14, value: 100}, 6],
+          [{zoom: 14, value: 250}, 8],
+          [{zoom: 14, value: 500}, 12],
+          [{zoom: 14, value: 1000}, 15],
+          [{zoom: 14, value: 3000}, 20],
+          [{zoom: 14, value: 5000}, 25],
+          [{zoom: 14, value: 10000}, 30],
+          [{zoom: 15.5, value: 0}, 6],
+          [{zoom: 15.5, value: 50}, 10],
+          [{zoom: 15.5, value: 100}, 16],
+          [{zoom: 15.5, value: 250}, 20],
+          [{zoom: 15.5, value: 500}, 28],
+          [{zoom: 15.5, value: 1000}, 34],
+          [{zoom: 15.5, value: 3000}, 40],
+          [{zoom: 15.5, value: 5000}, 45],
+          [{zoom: 15.5, value: 10000}, 50],
+        ]
+      }
+    }
+  });
   map.addLayer({
     id: "mflStops",
     type: "circle",
@@ -180,6 +244,7 @@ function addStopsLayer(map) {
           [{zoom: 14, value: 1000}, 15],
           [{zoom: 14, value: 3000}, 20],
           [{zoom: 14, value: 5000}, 25],
+          [{zoom: 14, value: 10000}, 30],
           [{zoom: 15.5, value: 0}, 6],
           [{zoom: 15.5, value: 50}, 10],
           [{zoom: 15.5, value: 100}, 16],
@@ -188,6 +253,7 @@ function addStopsLayer(map) {
           [{zoom: 15.5, value: 1000}, 34],
           [{zoom: 15.5, value: 3000}, 40],
           [{zoom: 15.5, value: 5000}, 45],
+          [{zoom: 15.5, value: 10000}, 50],
         ]
       }
     }
@@ -211,6 +277,7 @@ function addStopsLayer(map) {
           [{zoom: 14, value: 1000}, 15],
           [{zoom: 14, value: 3000}, 20],
           [{zoom: 14, value: 5000}, 25],
+          [{zoom: 14, value: 10000}, 30],
           [{zoom: 15.5, value: 0}, 6],
           [{zoom: 15.5, value: 50}, 10],
           [{zoom: 15.5, value: 100}, 16],
@@ -219,6 +286,7 @@ function addStopsLayer(map) {
           [{zoom: 15.5, value: 1000}, 34],
           [{zoom: 15.5, value: 3000}, 40],
           [{zoom: 15.5, value: 5000}, 45],
+          [{zoom: 15.5, value: 10000}, 50],
         ]
       }
     }
@@ -243,6 +311,7 @@ function addStopsLayer(map) {
           [{zoom: 14, value: 1000}, 15],
           [{zoom: 14, value: 3000}, 20],
           [{zoom: 14, value: 5000}, 25],
+          [{zoom: 14, value: 10000}, 30],
           [{zoom: 15.5, value: 0}, 6],
           [{zoom: 15.5, value: 50}, 10],
           [{zoom: 15.5, value: 100}, 16],
@@ -251,6 +320,7 @@ function addStopsLayer(map) {
           [{zoom: 15.5, value: 1000}, 34],
           [{zoom: 15.5, value: 3000}, 40],
           [{zoom: 15.5, value: 5000}, 45],
+          [{zoom: 15.5, value: 10000}, 50],
         ]
       }
     }
@@ -262,7 +332,7 @@ function addStopsLayer(map) {
     type: "circle",
     source: "busStops",
     paint: {
-      "circle-color": "#1F2833",
+      "circle-color": "#45A29E",
       "circle-opacity": 0.75,
       "circle-radius": {
         property: "Weekday_Boards",
@@ -276,6 +346,7 @@ function addStopsLayer(map) {
           [{zoom: 14, value: 1000}, 15],
           [{zoom: 14, value: 3000}, 20],
           [{zoom: 14, value: 5000}, 25],
+          [{zoom: 14, value: 10000}, 30],
           [{zoom: 15.5, value: 0}, 6],
           [{zoom: 15.5, value: 50}, 10],
           [{zoom: 15.5, value: 100}, 16],
@@ -284,6 +355,7 @@ function addStopsLayer(map) {
           [{zoom: 15.5, value: 1000}, 34],
           [{zoom: 15.5, value: 3000}, 40],
           [{zoom: 15.5, value: 5000}, 45],
+          [{zoom: 15.5, value: 10000}, 50],
         ]
       }
     }
@@ -297,7 +369,7 @@ function addRoutesLayer(map) {
     source: "busRoutes",
     paint: {
       "line-width": 3,
-      "line-color": "#1f2833"
+      "line-color": "#45A29E"
     },
     filter: ("routes", ["==", "School_Route", "No"])
   });
@@ -328,7 +400,15 @@ function addRoutesLayer(map) {
       "line-color": "#4377BC"
     }
   });
-
+  map.addLayer({
+    id: "rrRoutes",
+    type: "line",
+    source: "rrRoutes",
+    paint: {
+      "line-width": 3,
+      "line-color": "#1f2833"
+    }
+  });
 }
 
 function makeSurfaceStopPopups(coordinates, map, e) {
@@ -417,72 +497,6 @@ function makeRoutePopups(coordinates, map, e){
   });
   //console.log("making a popup");
 }
-
-function makeRoutesVisible(map){
-  map.setLayoutProperty("busRoutes", "visibility", "visible");
-  map.setLayoutProperty("trolleyRoutes", "visibility", "visible");
-  map.setLayoutProperty("mflRoute", "visibility", "visible");
-  map.setLayoutProperty("bslRoute", "visibility", "visible");
-}
-
-function makeRoutesInvisible(map){
-  map.setLayoutProperty("busRoutes", "visibility", "none");
-  map.setLayoutProperty("trolleyRoutes", "visibility", "none");
-  map.setLayoutProperty("mflRoute", "visibility", "none");
-  map.setLayoutProperty("bslRoute", "visibility", "none");
-}
-
-function makeStopsVisible(map){
-  map.setLayoutProperty("busStops", "visibility", "visible");
-  map.setLayoutProperty("trolleyStops", "visibility", "visible");
-  map.setLayoutProperty("bslStops", "visibility", "visible");
-  map.setLayoutProperty("mflStops", "visibility", "visible");
-}
-
-function makeStopsInvisible(map){
-  map.setLayoutProperty("busStops", "visibility", "none");
-  map.setLayoutProperty("trolleyStops", "visibility", "none");
-  map.setLayoutProperty("bslStops", "visibility", "none");
-  map.setLayoutProperty("mflStops", "visibility", "none");
-}
-
-function mapRegionalRail(map){
-  map.addSource("rrStops", {
-    type: "geojson",
-    data: septaRRStops
-  });
-  map.addLayer({
-    id: "rrStops",
-    type: "circle",
-    source: "rrStops",
-    paint: {
-      "circle-color": "#45A29E",
-      "circle-opacity": 0.75,
-      "circle-radius": {
-        property: "Weekday_Total_Boards",
-        type: "exponential",
-        stops: [
-          [{zoom: 14, value: 0}, 2],
-          [{zoom: 14, value: 50}, 4],
-          [{zoom: 14, value: 100}, 6],
-          [{zoom: 14, value: 250}, 8],
-          [{zoom: 14, value: 500}, 12],
-          [{zoom: 14, value: 1000}, 15],
-          [{zoom: 14, value: 3000}, 20],
-          [{zoom: 14, value: 5000}, 25],
-          [{zoom: 15.5, value: 0}, 6],
-          [{zoom: 15.5, value: 50}, 10],
-          [{zoom: 15.5, value: 100}, 16],
-          [{zoom: 15.5, value: 250}, 20],
-          [{zoom: 15.5, value: 500}, 28],
-          [{zoom: 15.5, value: 1000}, 34],
-          [{zoom: 15.5, value: 3000}, 40],
-          [{zoom: 15.5, value: 5000}, 45],
-        ]
-      }
-    }
-  });
-}
 function makeRRStopPopups(coordinates, map, e) {
   var description = [
     "<h5>" +
@@ -510,4 +524,59 @@ function makeRRStopPopups(coordinates, map, e) {
     //console.log('closed');
     popupTracker = false;
   });
+}
+function makeRRRoutePopups(coordinates, map, e){
+  var description = [
+    "<h5>" +
+    e.features[0].properties.Route_Name +
+    "</h5>" +
+    "<p>" +
+    "Average Weekday Ridership: " +
+    Math.round(e.features[0].properties.Total_Weekday_Boards).toLocaleString() + "<br>" +
+    "Operating Ratio: " + e.features[0].properties.Operating_Ratio + "%" + "<br>" +
+    "</p>"
+  ];
+
+  // put up a popup
+  new mapboxgl.Popup({ offset: [0, -15] })
+  .setLngLat(coordinates)
+  .setHTML(description)
+  .addTo(map)
+  .on('close', function(x) {
+    //console.log('closed');
+    popupTracker = false;
+  });
+  //console.log("making a popup");
+}
+
+function makeRoutesVisible(map){
+  map.setLayoutProperty("busRoutes", "visibility", "visible");
+  map.setLayoutProperty("trolleyRoutes", "visibility", "visible");
+  map.setLayoutProperty("mflRoute", "visibility", "visible");
+  map.setLayoutProperty("bslRoute", "visibility", "visible");
+  map.setLayoutProperty("rrRoutes", "visibility", "visible");
+}
+
+function makeRoutesInvisible(map){
+  map.setLayoutProperty("busRoutes", "visibility", "none");
+  map.setLayoutProperty("trolleyRoutes", "visibility", "none");
+  map.setLayoutProperty("mflRoute", "visibility", "none");
+  map.setLayoutProperty("bslRoute", "visibility", "none");
+  map.setLayoutProperty("rrRoutes", "visibility", "none");
+}
+
+function makeStopsVisible(map){
+  map.setLayoutProperty("busStops", "visibility", "visible");
+  map.setLayoutProperty("trolleyStops", "visibility", "visible");
+  map.setLayoutProperty("bslStops", "visibility", "visible");
+  map.setLayoutProperty("mflStops", "visibility", "visible");
+  map.setLayoutProperty("rrStops", "visibility", "visible");
+}
+
+function makeStopsInvisible(map){
+  map.setLayoutProperty("busStops", "visibility", "none");
+  map.setLayoutProperty("trolleyStops", "visibility", "none");
+  map.setLayoutProperty("bslStops", "visibility", "none");
+  map.setLayoutProperty("mflStops", "visibility", "none");
+  map.setLayoutProperty("rrStops", "visibility", "none");
 }

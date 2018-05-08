@@ -16,25 +16,8 @@ var map_stops = new mapboxgl.Map({
 
 // on load, add the sources and layers
 map_stops.on("load", function() {
-  mapRegionalRail(map_stops);
 
-  map_stops.addSource("mflStops", {
-    type: "geojson",
-    data: septaMFLStops
-  });
-  map_stops.addSource("bslStops", {
-    type: "geojson",
-    data: septaBSLStops
-  });
-  map_stops.addSource("trolleyStops", {
-    type: "geojson",
-    data: newTrolleyDataLink
-  });
-  map_stops.addSource("busStops", {
-    type: "geojson",
-    data: newBusDataLink
-  });
-
+  addSeptaStopSources(map_stops);
   addStopsLayer(map_stops);
 
 

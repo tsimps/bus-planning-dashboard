@@ -95,22 +95,7 @@ map_performance.on("load", function() {
   addSeptaRouteSources(map_performance);
   addRoutesLayer(map_performance);
 
-  map_performance.addSource("mflStops", {
-    type: "geojson",
-    data: septaMFLStops
-  });
-  map_performance.addSource("bslStops", {
-    type: "geojson",
-    data: septaBSLStops
-  });
-  map_performance.addSource("trolleyStops", {
-    type: "geojson",
-    data: septaTrolleyStops
-  });
-  map_performance.addSource("busStops", {
-    type: "geojson",
-    data: septaBusStops
-  });
+  addSeptaStopSources(map_performance, busAggregation = false);
   addStopsLayer(map_performance);
 
   // mute the routes layers until a route is chosen
@@ -183,6 +168,7 @@ map_performance.on("load", function() {
     map_performance.setFilter("trolleyRoutes", filterSurface);
     map_performance.setFilter("mflRoute", filterRail);
     map_performance.setFilter("bslRoute", filterRail);
+    map_performance.setFilter("rrRoutes", filterRail);
     makeRoutesVisible(map_performance);
   });
 
@@ -198,7 +184,7 @@ map_performance.on("load", function() {
     makeStopsVisible(map_performance);
   }
 
-  var mapRoutesLayers = ["busRoutes", "trolleyRoutes", "mflRoute", "bslRoute"];
+  var mapRoutesLayers = ["busRoutes", "trolleyRoutes", "mflRoute", "bslRoute", "rrRoutes"];
   _.each(mapRoutesLayers, function(x) {
 
     // manage the cursor over each layer
@@ -235,6 +221,17 @@ map_performance.on("load", function() {
       popupTracker = true;
     });
 
+    map_performance.on("click", "rrRoutes", function(e) {
+      coordinates = e.lngLat;
+      if(popupTracker === false){
+        makeRRRoutePopups(coordinates, map_performance, e);
+        var routeNumber = e.features[0].properties.Route_Name;
+        filterRoutes(map_performance, routeNumber);
+        filterStops(map_performance, routeNumber);
+      }
+      popupTracker = true;
+      makeStopsVisible(map_performance);
+    });
     if (layerClick === false && popupTracker === false) {
       // clear the map
       slider.noUiSlider.set([null, null]);

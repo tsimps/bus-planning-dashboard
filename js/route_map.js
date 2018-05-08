@@ -17,27 +17,14 @@ var routeMapIsFresh = true;
 
 map_routes.on("load", function() {
 
-
-  map_routes.addSource("mflStops", {
-    type: "geojson",
-    data: septaMFLStops
-  });
-  map_routes.addSource("bslStops", {
-    type: "geojson",
-    data: septaBSLStops
-  });
-  map_routes.addSource("trolleyStops", {
-    type: "geojson",
-    data: septaTrolleyStops
-  });
-  map_routes.addSource("busStops", {
-    type: "geojson",
-    data: septaBusStops
-  });
+  addSeptaStopSources(map_routes, busAggregation = false);
   addStopsLayer(map_routes);
+  // mute the stops layers until a route is chosen
+  makeStopsInvisible(map_routes);
 
   addSeptaRouteSources(map_routes);
   addRoutesLayer(map_routes);
+  //mapRegionalRailRoutes(map_routes);
 
   // BUS STOP POPUPS
   map_routes.on("click", "busStops", function(e) {
@@ -67,8 +54,70 @@ map_routes.on("load", function() {
     popupTracker = true;
   });
 
+  map_routes.on("click", "rrStops", function(e) {
+    var coordinates = e.features[0].geometry.coordinates.slice();
+    makeRRRoutePopups(coordinates, map_routes, e);
+    popupTracker = true;
+  });
+
+  var slider3 = document.getElementById('slider3');
+
+  noUiSlider.create(slider3, {
+    start: [0, 200000],
+    connect: true,
+    step: 10,
+    behaviour: 'drag',
+    format: wNumb({
+      decimals: 0,
+    }),
+    range: {
+      'min': [  0 ],
+      '30%': [  5000 ],
+      '50%': [  10000 ],
+      '70%': [  40000 ],
+      'max': [ 200000 ]
+    },
+    tooltips: [ true, true ],
+  });
+
+
+  slider3.noUiSlider.on('update', function(values) {
+    //console.log(values[0], values[1]);
+    //console.log(typeof values[0]);
+    var low = parseInt(values[0]);
+    var high = parseInt(values[1]);
+    var filter = [];
+    //makeStopsInvisible(map_routes);
+    filterRoutes(map_routes, "");
+
+    filterSurface = ["all",  [">=", "Average_Weekday_Passengers", low], ["<=", "Average_Weekday_Passengers", high], ["==", "School_Route", "No"]];
+    filterRail = ["all", [">=", "Average_Weekday_Passengers", low], ["<=", "Average_Weekday_Passengers", high]];
+    filterRR = ["all", [">=", "Total_Weekday_Boards", low], ["<=", "Total_Weekday_Boards", high]];
+
+    map_routes.setFilter("busRoutes", filterSurface);
+    map_routes.setFilter("trolleyRoutes", filterSurface);
+    map_routes.setFilter("mflRoute", filterRail);
+    map_routes.setFilter("bslRoute", filterRail);
+    map_routes.setFilter("rrRoutes", filterRR);
+
+    makeRoutesVisible(map_routes);
+  });
+
+  document.getElementById('lowRouteButton').addEventListener('click', function(){
+    slider3.noUiSlider.set( [0, 3500] );
+  });
+  document.getElementById('midRouteButton').addEventListener('click', function(){
+    slider3.noUiSlider.set( [3500, 10000] );
+  });
+  document.getElementById('highRoutebutton').addEventListener('click', function(){
+    slider3.noUiSlider.set( [10000, 200000] );
+  });
+  document.getElementById('fullRouteButton').addEventListener('click', function(){
+    slider3.noUiSlider.set( [0, 200000] );
+  });
+
   // array to hold all 4  stop layers
-  var mapStopsLayers = ["busStops", "trolleyStops", "mflStops", "bslStops"];
+  var mapStopsLayers = ["busStops", "trolleyStops", "mflStops", "bslStops", "rrStops"];
 
   // set the pointer/graber for each layer
   _.each(mapStopsLayers, function(x) {
@@ -80,11 +129,8 @@ map_routes.on("load", function() {
     });
   });
 
-  // mute the stops layers until a route is chosen
-  makeStopsInvisible(map_routes);
-
   // array to hold all 4  route layers
-  var mapRoutesLayers = ["busRoutes", "trolleyRoutes", "mflRoute", "bslRoute"];
+  var mapRoutesLayers = ["busRoutes", "trolleyRoutes", "mflRoute", "bslRoute", "rrRoutes"];
   var data;
   var dataArray = [];
   _.each(mapRoutesLayers, function(x) {
@@ -136,7 +182,19 @@ map_routes.on("load", function() {
       if(popupTracker === false){layerClicking(e);}
       popupTracker = true;
     });
-
+    map_routes.on("click", "rrRoutes", function(e) {
+      coordinates = e.lngLat;
+      if(popupTracker === false){
+        makeRRRoutePopups(coordinates, map_routes, e);
+        var routeNumber = e.features[0].properties.Route_Name;
+        filterRoutes(map_routes, routeNumber);
+        filterStops(map_routes, routeNumber);
+      }
+      popupTracker = true;
+      $("#routeSearch")[0].parentElement.MaterialTextfield.change(
+        e.features[0].properties.Route_Name
+      );
+    });
     if (layerClick === false && popupTracker === false) {
 
       // clear the map
@@ -144,6 +202,7 @@ map_routes.on("load", function() {
       $("#routeSearch")[0].parentElement.MaterialTextfield.change(
         ""
       );
+      slider3.noUiSlider.set([null, null]);
     }
   });
 
@@ -162,7 +221,7 @@ map_routes.on("load", function() {
   var trolleyBox = document.querySelector('input[id="trolleyRoutes"]');
   var mflBox = document.querySelector('input[id="mflRoute"]');
   var bslBox = document.querySelector('input[id="bslRoute"]');
-  var rrBox = document.querySelector('input[id="rrRoute"]');
+  var rrBox = document.querySelector('input[id="rrRoutes"]');
 
   var layerBoxes = [busBox, trolleyBox, mflBox, bslBox, rrBox];
 
@@ -188,6 +247,11 @@ map_routes.on("load", function() {
         map_routes.setLayoutProperty("bslRoute", "visibility", "visible");
       } else {
         map_routes.setLayoutProperty("bslRoute", "visibility", "none");
+      }
+      if (rrBox.checked) {
+        map_routes.setLayoutProperty("rrRoutes", "visibility", "visible");
+      } else {
+        map_routes.setLayoutProperty("rrRoutes", "visibility", "none");
       }
     };
   });

@@ -200,6 +200,7 @@ document.getElementById('fullRidershipButton').addEventListener('click', functio
 });
 
 // LAYER CONTROL
+var allBox = document.querySelector('input[id="all"]');
 var busBox = document.querySelector('input[id="bus"]');
 var trolleyBox = document.querySelector('input[id="trolley"]');
 var mflBox = document.querySelector('input[id="mfl"]');
@@ -210,35 +211,43 @@ var rrBox = document.querySelector('input[id="rr"]');
 document.getElementById("demo-menu-lower-left").click();
 
 
-var layerBoxes = [busBox, trolleyBox, mflBox, bslBox, rrBox];
+var layerBoxes = [allBox, busBox, trolleyBox, mflBox, bslBox, rrBox];
 
 _.each(layerBoxes, function(box) {
   //console.log(box);
   box.onchange = function() {
-    if (busBox.checked) {
-      map_stops.setLayoutProperty("busStops", "visibility", "visible");
-    } else {
+    if (allBox.checked){
       map_stops.setLayoutProperty("busStops", "visibility", "none");
-    }
-    if (trolleyBox.checked) {
-      map_stops.setLayoutProperty("trolleyStops", "visibility", "visible");
-    } else {
       map_stops.setLayoutProperty("trolleyStops", "visibility", "none");
-    }
-    if (mflBox.checked) {
-      map_stops.setLayoutProperty("mflStops", "visibility", "visible");
-    } else {
       map_stops.setLayoutProperty("mflStops", "visibility", "none");
-    }
-    if (bslBox.checked) {
-      map_stops.setLayoutProperty("bslStops", "visibility", "visible");
-    } else {
       map_stops.setLayoutProperty("bslStops", "visibility", "none");
-    }
-    if (rrBox.checked) {
-      map_stops.setLayoutProperty("rrStops", "visibility", "visible");
-    } else {
       map_stops.setLayoutProperty("rrStops", "visibility", "none");
+    } else {
+      if (busBox.checked) {
+        map_stops.setLayoutProperty("busStops", "visibility", "visible");
+      } else {
+        map_stops.setLayoutProperty("busStops", "visibility", "none");
+      }
+      if (trolleyBox.checked) {
+        map_stops.setLayoutProperty("trolleyStops", "visibility", "visible");
+      } else {
+        map_stops.setLayoutProperty("trolleyStops", "visibility", "none");
+      }
+      if (mflBox.checked) {
+        map_stops.setLayoutProperty("mflStops", "visibility", "visible");
+      } else {
+        map_stops.setLayoutProperty("mflStops", "visibility", "none");
+      }
+      if (bslBox.checked) {
+        map_stops.setLayoutProperty("bslStops", "visibility", "visible");
+      } else {
+        map_stops.setLayoutProperty("bslStops", "visibility", "none");
+      }
+      if (rrBox.checked) {
+        map_stops.setLayoutProperty("rrStops", "visibility", "visible");
+      } else {
+        map_stops.setLayoutProperty("rrStops", "visibility", "none");
+      }
     }
   };
 });

@@ -100,147 +100,95 @@ map_routes.on("load", function() {
     var a = map_routes.querySourceFeatures(x);
   });
 
-  var routeRidershipDatabase = {};
+  // listen for a click anywhere on the map
+  map_routes.on("click", function(e) {
 
-  /*
+    // boolean for tracking clicks on a layer
+    var layerClick = false;
+    var coordinates = 0;
 
-  map_routes.on("data", function(data) {
+    function layerClicking(e) {
+      layerClick = true;
+      coordinates = e.lngLat;
+      makeRoutePopups(coordinates, map_routes, e);
+      var routeNumber = e.features[0].properties.Route;
+      filterRoutes(map_routes, routeNumber);
+      filterStops(map_routes, routeNumber);
+      // update the search box to allow the user to clear
+      $("#routeSearch")[0].parentElement.MaterialTextfield.change(
+        e.features[0].properties.Route
+      );
+    }
 
-  if (data.dataType === 'source' && data.isSourceLoaded && routeMapIsFresh === true) {
-  console.log('data loaded', data);
+    map_routes.on("click", "busRoutes", function(e) {
+      if(popupTracker === false){layerClicking(e);}
+      popupTracker = true;
+    });
+    map_routes.on("click", "trolleyRoutes", function(e) {
+      if(popupTracker === false){layerClicking(e);}
+      popupTracker = true;
+    });
+    map_routes.on("click", "mflRoute", function(e) {
+      if(popupTracker === false){layerClicking(e);}
+      popupTracker = true;
+    });
+    map_routes.on("click", "bslRoute", function(e) {
+      if(popupTracker === false){layerClicking(e);}
+      popupTracker = true;
+    });
 
+    if (layerClick === false && popupTracker === false) {
 
-  _.each(mapRoutesLayers, function(x) {
-  var a = map_routes.querySourceFeatures(x);
-  //console.log(a);
-  // dataArray now holds four different array, each of which has all of the features
-  dataArray.push(a);
-});
+      // clear the map
+      filterRoutes(map_routes, "");
+      $("#routeSearch")[0].parentElement.MaterialTextfield.change(
+        ""
+      );
+    }
+  });
 
-//console.log(dataArray);
-var labels = [busRidership, trolleyRidership, mflRidership, bslRidership];
-var dat = [];
-var busRidership, trolleyRidership, mflRidership, bslRidership;
+  // search by text input
+  routeSearchInput.addEventListener("keyup", function(e) {
+    var routeNumber = e.target.value;
+    if (routeNumber === "MFL") {routeNumber = "Market-Frankford Line";}
+    if (routeNumber === "BSL") {routeNumber = "Broad Street Line";}
 
-
-// for each data arracy
-_.each(dataArray, function(x) {
-//console.log(x);
-// for each array within dataArray[0] i.e. the busRoutes...
-var ridershipHolder = 0;
-
-_.each(x, function(y) {
-//console.log(y);
-//console.log(y.properties.Route);
-// filter out school routes
-
-//labels.push(y.properties.Route);
-//dat.push(y.properties.Average_Weekday_Passengers);
-var ridership = y.properties.Average_Weekday_Passengers;
-
-if (ridership > 0 && y.properties.School_Route === "No" ){
-ridershipHolder += ridership;
-}
-else if (y.properties.Route === "Market-Frankford Line" || y.properties.Route === "Broad Street Line") {
-ridershipHolder += ridership;
-}
-
-});
-dat.push(ridershipHolder);
-//console.log('DAT', dat);
-
-});
-//console.log(labels);
-//console.log(dat);
-
-var toolTipNumber = wNumb({
-decimals: 0,
-thousand: ',',
-});
-
-// construct chart here
-var ctx = document.getElementById("routesChart").getContext('2d');
-var myChart = new Chart(ctx, {
-type: 'doughnut',
-data: {
-labels: ["Bus", "Trolley", "MFL", "BSL"],
-datasets: [{
-data: dat,
-backgroundColor: ["rgba(11,12,16,0.7)", "rgba(051,181,011,0.7)", "rgba(000,128,255,0.7)", "rgba(255,140,000,0.7)"],
-backgroundOpacity: 0.75
-}],
-},
-options: {
-title: {
-display: true,
-position: "top",
-text: 'Ridership by Mode'
-}
-}
-});
-
-
-// stop listening to map.on('data'), if applicable
-routeMapIsFresh = false;
-
-}
-});
-*/
-
-// listen for a click anywhere on the map
-map_routes.on("click", function(e) {
-
-  // boolean for tracking clicks on a layer
-  var layerClick = false;
-  var coordinates = 0;
-
-  function layerClicking(e) {
-    layerClick = true;
-    coordinates = e.lngLat;
-    makeRoutePopups(coordinates, map_routes, e);
-    var routeNumber = e.features[0].properties.Route;
     filterRoutes(map_routes, routeNumber);
     filterStops(map_routes, routeNumber);
-    // update the search box to allow the user to clear
-    $("#routeSearch")[0].parentElement.MaterialTextfield.change(
-      e.features[0].properties.Route
-    );
-  }
-
-  map_routes.on("click", "busRoutes", function(e) {
-    if(popupTracker === false){layerClicking(e);}
-    popupTracker = true;
-  });
-  map_routes.on("click", "trolleyRoutes", function(e) {
-    if(popupTracker === false){layerClicking(e);}
-    popupTracker = true;
-  });
-  map_routes.on("click", "mflRoute", function(e) {
-    if(popupTracker === false){layerClicking(e);}
-    popupTracker = true;
-  });
-  map_routes.on("click", "bslRoute", function(e) {
-    if(popupTracker === false){layerClicking(e);}
-    popupTracker = true;
   });
 
-  if (layerClick === false && popupTracker === false) {
+  // LAYER CONTROL
+  var busBox = document.querySelector('input[id="busRoutes"]');
+  var trolleyBox = document.querySelector('input[id="trolleyRoutes"]');
+  var mflBox = document.querySelector('input[id="mflRoute"]');
+  var bslBox = document.querySelector('input[id="bslRoute"]');
+  var rrBox = document.querySelector('input[id="rrRoute"]');
 
-    // clear the map
-    filterRoutes(map_routes, "");
-    $("#routeSearch")[0].parentElement.MaterialTextfield.change(
-      ""
-    );
-  }
-});
+  var layerBoxes = [busBox, trolleyBox, mflBox, bslBox, rrBox];
 
-// search by text input
-routeSearchInput.addEventListener("keyup", function(e) {
-  var routeNumber = e.target.value;
-  if (routeNumber === "MFL") {routeNumber = "Market-Frankford Line";}
-  if (routeNumber === "BSL") {routeNumber = "Broad Street Line";}
-
-  filterRoutes(map_routes, routeNumber);
-  filterStops(map_routes, routeNumber);
-});
+  _.each(layerBoxes, function(box) {
+    //console.log(box);
+    box.onchange = function() {
+      if (busBox.checked) {
+        map_routes.setLayoutProperty("busRoutes", "visibility", "visible");
+      } else {
+        map_routes.setLayoutProperty("busRoutes", "visibility", "none");
+      }
+      if (trolleyBox.checked) {
+        map_routes.setLayoutProperty("trolleyRoutes", "visibility", "visible");
+      } else {
+        map_routes.setLayoutProperty("trolleyRoutes", "visibility", "none");
+      }
+      if (mflBox.checked) {
+        map_routes.setLayoutProperty("mflRoute", "visibility", "visible");
+      } else {
+        map_routes.setLayoutProperty("mflRoute", "visibility", "none");
+      }
+      if (bslBox.checked) {
+        map_routes.setLayoutProperty("bslRoute", "visibility", "visible");
+      } else {
+        map_routes.setLayoutProperty("bslRoute", "visibility", "none");
+      }
+    };
+  });
 });

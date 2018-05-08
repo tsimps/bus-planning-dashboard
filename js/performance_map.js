@@ -216,27 +216,26 @@ map_performance.on("load", function() {
     var layerClick = false;
 
     map_performance.on("click", "busRoutes", function(e) {
-      layerClicking(e);
+      if(popupTracker === false){layerClicking(e);}
       popupTracker = true;
     });
 
     map_performance.on("click", "trolleyRoutes", function(e) {
-      layerClicking(e);
+      if(popupTracker === false){layerClicking(e);}
       popupTracker = true;
     });
 
     map_performance.on("click", "mflRoute", function(e) {
-      layerClicking(e);
+      if(popupTracker === false){layerClicking(e);}
       popupTracker = true;
     });
 
     map_performance.on("click", "bslRoute", function(e) {
-      layerClicking(e);
+      if(popupTracker === false){layerClicking(e);}
       popupTracker = true;
     });
 
     if (layerClick === false && popupTracker === false) {
-
       // clear the map
       slider.noUiSlider.set([null, null]);
     }

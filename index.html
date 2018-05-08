@@ -217,59 +217,117 @@
           </div>
         </div>
         <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
-          <div class = "map" id="map_routes"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="mdl-layout__tab-panel" id="performance">
-      <div class="mdl-grid">
-        <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
-          <h4> Performance Analytics </h4>
-          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="suburbanSwitch">
-            <input type="checkbox" id="suburbanSwitch" class="mdl-switch__input" checked>
-            <span class="mdl-switch__label">Show Suburban Routes</span>
-          </label>
-          <br>
-          <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="citySwitch">
-            <input type="checkbox" id="citySwitch" class="mdl-switch__input" checked>
-            <span class="mdl-switch__label">Show City Routes</span>
-          </label>
-          <br><br><p> Filter by Operating Ratio </p><br><br>
-          <div id = "slider1" class="noUi-target noUi-ltr noUi-horizontal">
+          <!-- Left aligned menu below button -->
+          <button id="demo-menu-lower-left2" class="mdl-button mdl-js-button mdl-button--icon" >
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul class="mdl-menu is-visible mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+          for="demo-menu-lower-left2">
+          <div>
+            <li class="mdl-menu__item">
+              <div>
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="busRoutes">
+                  <input type="checkbox" id="busRoutes" class="mdl-checkbox__input" value="busRoutes" checked>
+                  <span class="mdl-checkbox__label">Bus Routes</span>
+                </label>
+              </div>
+            </li>
           </div>
           <div>
-            <br><br>
-            <p> Quick Sets </p>
-            <div style="padding:5px;">
-              <button class="mdl-button mdl-js-button mdl-button--raised" id="lowPerformanceButton">
-                Low Performance Routes
-              </button>
-            </div>
-            <div style="padding:5px;">
-              <button class="mdl-button mdl-js-button mdl-button--raised" id="midPerformanceButton">
-                Medium Performance Routes
-              </button>
-            </div>
-            <div style="padding:5px;">
-              <button class="mdl-button mdl-js-button mdl-button--raised" id="highPerformanceButton">
-                High Performance Routes
-              </button>
-            </div>
-            <div style="padding:5px;">
-              <button class="mdl-button mdl-js-button mdl-button--raised" id="fullSystemButton">
-                Full System
-              </button>
-            </div>
+            <li class="mdl-menu__item">
+              <div>
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="trolleyRoutes">
+                  <input type="checkbox" id="trolleyRoutes" class="mdl-checkbox__input" value="trolleyRoutes" checked>
+                  <span class="mdl-checkbox__label">Trolley Roues</span>
+                </label>
+              </div>
+            </li>
           </div>
-        </div>
-        <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
-          <div class = "map" id="map_performance"></div>
-        </div>
+          <div>
+            <li class="mdl-menu__item">
+              <div>
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="mflRoute">
+                  <input type="checkbox" id="mflRoute" class="mdl-checkbox__input" value="mflRoute" checked>
+                  <span class="mdl-checkbox__label">MFL Route</span>
+                </label>
+              </div>
+            </li>
+          </div>
+          <div>
+            <li class="mdl-menu__item">
+              <div>
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="bslRoute">
+                  <input type="checkbox" id="bslRoute" class="mdl-checkbox__input" value="bslRoute" checked>
+                  <span class="mdl-checkbox__label">BSL Route</span>
+                </label>
+              </div>
+            </li>
+          </div>
+          <div>
+            <li class="mdl-menu__item">
+              <div>
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="rrRoute">
+                  <input type="checkbox" id="rrRoute" class="mdl-checkbox__input" value="rrRoute" checked>
+                  <span class="mdl-checkbox__label">Regional Rail Route</span>
+                </label>
+              </div>
+            </li>
+          </div>
+        </ul>
+        <div class = "map" id="map_routes"></div>
       </div>
     </div>
+  </div>
 
-  </main>
+  <div class="mdl-layout__tab-panel" id="performance">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
+        <h4> Performance Analytics </h4>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="suburbanSwitch">
+          <input type="checkbox" id="suburbanSwitch" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label">Show Suburban Routes</span>
+        </label>
+        <br>
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="citySwitch">
+          <input type="checkbox" id="citySwitch" class="mdl-switch__input" checked>
+          <span class="mdl-switch__label">Show City Routes</span>
+        </label>
+        <br><br><p> Filter by Operating Ratio </p><br><br>
+        <div id = "slider1" class="noUi-target noUi-ltr noUi-horizontal">
+        </div>
+        <div>
+          <br><br>
+          <p> Quick Sets </p>
+          <div style="padding:5px;">
+            <button class="mdl-button mdl-js-button mdl-button--raised" id="lowPerformanceButton">
+              Low Performance Routes
+            </button>
+          </div>
+          <div style="padding:5px;">
+            <button class="mdl-button mdl-js-button mdl-button--raised" id="midPerformanceButton">
+              Medium Performance Routes
+            </button>
+          </div>
+          <div style="padding:5px;">
+            <button class="mdl-button mdl-js-button mdl-button--raised" id="highPerformanceButton">
+              High Performance Routes
+            </button>
+          </div>
+          <div style="padding:5px;">
+            <button class="mdl-button mdl-js-button mdl-button--raised" id="fullSystemButton">
+              Full System
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
+
+        <div class = "map" id="map_performance"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
 </div>
 </body>
 

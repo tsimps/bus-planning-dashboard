@@ -1,6 +1,22 @@
 # bus-planning-dashboard
 
-# to do
+Welcome to the transit analysis tool (legacy name: bus planning dashboard). This is a project for a javascript class at the University of Pennsylvania. It is still in development, so feel free to ask questions and hit me up with feature ideas.
+
+Data is provided by [SEPTA's open data portal](https://septaopendata-septa.opendata.arcgis.com).
+
+Check out my [website](www.tandrewsimpson.com) and feel free to [email me](mail@tandrewsimpson.com). 
+
+
+# things in development
+- [ ] option to style based on shelter status
+- [ ] analytics charts for stops and routes
+- [ ] add "serving routes ..." to the search interaction
+- [ ] populate a dropdown list as the user types a route number
+
+
+
+
+# to do [ legacy ]
 
 ## overall
 - [x] wireframe website
@@ -12,7 +28,7 @@
 - [x] general cleanup 1
 - [x] refactor stop mapping functions and popups
 - [x] split out javascript files
-- [ ] add regional rail data
+- [x] add regional rail data
 
 
 ## stops page
@@ -22,13 +38,14 @@
 - [x] add popups 
 - [x] add other modes' stops
 - [ ] develop charts
-- [ ] compile multiple route stops into 1 feature
+- [x] compile multiple route stops into 1 feature
 - [x] layer control
 - [x] refactor mapping functions
 - [x] search by name limited viability
-- [ ] possibly switch search by name to a geocoding search except mapbox geocoder doesn't support intersection based searching 
+- [x] build out searching features
 - [x] put layer control into a MDL menu
 - [ ] add checkboxes to remove suburban stops
+- [ ] add "serving routes ..." to the search interaction
 
 
 ## routes page
@@ -44,10 +61,10 @@
 - [ ] populate a dropdown list as the user types a route number
 - [x] allow user to click to clear
 - [x] add checkboxes to remove suburban routes
-- [ ] add layer control
+- [x] add layer control
 
 ## performance page
 - [x] add checkboxes to remove suburban routes
 - [x] add preset buttons
-- [ ] add popups
+- [x] add popups
 

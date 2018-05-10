@@ -7,7 +7,7 @@ Data is provided by [SEPTA's open data portal](https://septaopendata-septa.opend
 Check out my [website](www.tandrewsimpson.com) and feel free to [email me](mail@tandrewsimpson.com). 
 
 
-# things in development
+## things in development
 - [ ] option to style based on shelter status
 - [ ] analytics charts for stops and routes
 - [ ] add "serving routes ..." to the search interaction
@@ -16,9 +16,9 @@ Check out my [website](www.tandrewsimpson.com) and feel free to [email me](mail@
 
 
 
-# to do [ legacy ]
+## to do [ legacy ]
 
-## overall
+### overall
 - [x] wireframe website
 - [x] create 3 main maps
 - [x] bring in SEPTA data
@@ -31,7 +31,7 @@ Check out my [website](www.tandrewsimpson.com) and feel free to [email me](mail@
 - [x] add regional rail data
 
 
-## stops page
+### stops page
 - [x] style based on ridership
 - [ ] option to style based on shelter status
 - [x] build stop filtering by stop id (possibly import from midterm)
@@ -48,7 +48,7 @@ Check out my [website](www.tandrewsimpson.com) and feel free to [email me](mail@
 - [ ] add "serving routes ..." to the search interaction
 
 
-## routes page
+### routes page
 - [x] filter out the school routes 
 - [x] add user selection/filter option
 - [x] once route is chosen, bring up the stops for that route
@@ -63,7 +63,7 @@ Check out my [website](www.tandrewsimpson.com) and feel free to [email me](mail@
 - [x] add checkboxes to remove suburban routes
 - [x] add layer control
 
-## performance page
+### performance page
 - [x] add checkboxes to remove suburban routes
 - [x] add preset buttons
 - [x] add popups

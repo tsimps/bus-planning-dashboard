@@ -12,6 +12,7 @@ Check out my [website](https://www.tandrewsimpson.com) and feel free to [email m
 - [ ] analytics charts for stops and routes
 - [ ] add "serving routes ..." to the search interaction
 - [ ] populate a dropdown list as the user types a route number
+- [ ] add support for loops & transportation centers 
 
 
 

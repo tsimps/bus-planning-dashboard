@@ -26,7 +26,16 @@ noUiSlider.create(slider, {
     'min': 0,
     'max': 100
   },
-
+  pips: {
+    mode: 'positions',
+		values: [0,25,50,75,100],
+		density: 4,
+    format: wNumb({
+      decimals: 0,
+      thousand: ',',
+      suffix: '%'
+    }),
+  },
   tooltips: [ true, true ],
 });
 
@@ -38,13 +47,13 @@ suburbanSwitch.addEventListener('change', function(){
   // if the switch is on:
   if (suburbanSwitch.checked) {
     suburbanFilter = false;
-    console.log("checked");
+    //console.log("checked");
   }
 
   //otherwise:
   else {
     suburbanFilter = true;
-    console.log("unchecked");
+    //console.log("unchecked");
   }
 
   // update the slider to get refiltering process
@@ -60,13 +69,13 @@ citySwitch.addEventListener('change', function(){
   // if the switch is on:
   if (citySwitch.checked) {
     cityFilter = false;
-    console.log("checked");
+    //console.log("checked");
   }
 
   //otherwise:
   else {
     cityFilter = true;
-    console.log("unchecked");
+    //console.log("unchecked");
   }
 
   // update the slider to get refiltering process

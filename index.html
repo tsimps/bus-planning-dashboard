@@ -34,6 +34,7 @@
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.2/mapbox-gl.css' rel='stylesheet' />
 <link rel="stylesheet" href="nouislider.min.css">
+<link rel="stylesheet" href="spin.css">
 <link rel="stylesheet" href="material.css">
 <link rel="stylesheet" href="mdl-jquery-modal-dialog.css">
 <link rel="stylesheet" href="styles.css">
@@ -59,6 +60,7 @@
         <h3>Transit Analysis Tool</h3>
         <div class="mdl-layout-spacer"></div>
         <div>
+          <a class="github-button" href="https://github.com/tsimps/bus-planning-dashboard" data-icon="octicon-star" data-size="large" aria-label="Star tsimps/bus-planning-dashboard on GitHub">Star</a>
           <button id="info" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
             Information
           </button>
@@ -69,11 +71,14 @@
         <a href="#stops" class="mdl-layout__tab mdl-navigation__link is-active">Stops</a>
         <a href="#routes" class="mdl-layout__tab mdl-navigation__link">Routes</a>
         <a href="#performance" class="mdl-layout__tab mdl-navigation__link">Operating Performance</a>
+        <div class="mdl-layout-spacer"></div>
+
+
       </div>
 
     </header>
 
-    <main class="mdl-layout__content">
+    <main class="mdl-layout__content" id="main">
 
       <div class="mdl-layout__tab-panel is-active" id="stops">
         <div class="mdl-grid">
@@ -82,7 +87,7 @@
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="stopNameSearch">
-                <label class="mdl-textfield__label" for="stopNameSearch">Stop Name/ID...</label>
+                <label class="mdl-textfield__label" for="stopNameSearch">Search By Stop Name/ID...</label>
               </div>
             </form>
             <div id="auto-complete-list">
@@ -117,7 +122,7 @@
             <canvas id="stopsChart" height="300"></canvas>
           </div>
 
-          <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone">
+          <div class="mdl-cell mdl-cell--8-col mdl-cell--4-col-phone" id="stopsDiv">
 
             <!-- Left aligned menu below button -->
             <button id="demo-menu-lower-left" class="mdl-button mdl-js-button mdl-button--icon" >
@@ -200,11 +205,10 @@
       <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
           <div>
-            <h4> Search </h4>
             <form action="#">
               <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <input class="mdl-textfield__input" type="text" id="routeSearch">
-                <label class="mdl-textfield__label" for="routeSearch">Route...</label>
+                <label class="mdl-textfield__label" for="routeSearch">Search by Route...</label>
               </div>
             </form>
             <br><br><p> Filter by Weekday Boards </p><br><br>
@@ -303,7 +307,6 @@
   <div class="mdl-layout__tab-panel" id="performance">
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--4-col mdl-cell--2-col-phone">
-        <h4> Performance Analytics </h4>
         <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="suburbanSwitch">
           <input type="checkbox" id="suburbanSwitch" class="mdl-switch__input" checked>
           <span class="mdl-switch__label">Show Suburban Routes</span>
@@ -365,7 +368,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.1.0/wNumb.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.0/fuse.min.js"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="js/papaparse.min.js"></script>
+<script src="js/spin.js"></script>
 <script src="js/main.js"></script>
 <script src="js/stops_map.js"></script>
 <script src="js/performance_map.js"></script>

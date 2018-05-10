@@ -1,4 +1,5 @@
 // GLOBAL
+
 var septaBusStops =
 "https://opendata.arcgis.com/datasets/e9cf307d8408475ab1188f126ccaa1ba_0.geojson";
 var septaBusRoutes =
@@ -19,6 +20,8 @@ var septaRRStops =
 'https://opendata.arcgis.com/datasets/819dfd2785b64c10b7cbacde1d7b02f9_0.geojson';
 var septaRRRoutes =
 "https://opendata.arcgis.com/datasets/0bc475a334494b8796d87ce546e90bb4_0.geojson";
+var septaLoopsCenters =
+"https://opendata.arcgis.com/datasets/790a5574ccef4bbc85ba76072b62f537_0.geojson";
 
 var shelterDatabaseLink =
 "https://raw.githubusercontent.com/tsimps/tsimps.github.io/master/data/shelter_json_31318.geojson";
@@ -47,31 +50,39 @@ mapboxgl.accessToken =
 "pk.eyJ1IjoidGFuZHJld3NpbXBzb24iLCJhIjoiY2ludXlsY3ZsMTJzN3Rxa2oyNnplZjB1ZyJ9.bftIKd0sAwvSIGWxIDbSSw";
 
 
+
+
+
+
+
+
 // INFORMATION POPUP
-var infoText = "<p> Welcome to the Transit Analysis Tool. This tool is still in development, so feel free to get in touch for additional features that could be useful. Data is courtesy of SEPTA. </p>" +
+var infoText = "<p> Welcome to the Transit Analysis Tool. This tool is still in development, so feel free to get in touch for additional features that could be useful and to let me know about bugs. Data is courtesy of SEPTA. Map rendering is powered by Mapbox GL. </p>" +
 "<h5> How This Works </h5> <p> There are three pages to this tool. The Stops page shows ridership data aggregated to the stop level for the whole SEPTA system. <br><br>"+
 "The Routes page allows the user to choose a route in the system and see ridership only for that route (i.e. if there are 4 routes that use a stop, this page will only show you the ridership for the chosen route.)<br><br>"+
 "The Operating Perfomance page allows the user to understand the performance of the system from a operating ratio standpoint (i.e. profitability)</p>";
 
 $('#info').click(function () {
-    showDialog({
-        title: 'About',
-        text: infoText
-    });
+  showDialog({
+    title: 'About',
+    text: infoText
+  });
 });
 
 var options = {
   shouldSort: true,
+  tokenize: true,
+  //matchAllTokens: true, // fucks up with the space bar
   includeScore: true,
-  threshold: 0.6,
+  threshold: 0.5,
   location: 0,
   distance: 100,
-  maxPatternLength: 16,
-  minMatchCharLength: 2,
+  maxPatternLength: 20,
+  minMatchCharLength: 3,
   keys: [
     "Stop_ID",
     "Stop_Name"
-]
+  ]
 };
 
 var stopFuse;
@@ -79,13 +90,13 @@ var stopFuse;
 
 var stopList = [];
 Papa.parse("https://raw.githubusercontent.com/tsimps/bus-planning-dashboard/master/data/searchData.csv", {
-	download: true,
+  download: true,
   header: true,
-	complete: function(results) {
-		//console.log(results);
+  complete: function(results) {
+    //console.log(results);
     stopList = results.data;
     stopFuse = new Fuse(stopList, options); // "list" is the item array
-	}
+  }
 });
 
 
@@ -394,7 +405,12 @@ function addRoutesLayer(map) {
     source: "busRoutes",
     paint: {
       "line-width": 5,
-      "line-color": "#45A29E"
+      "line-color": "#45A29E",
+      "line-opacity": 0.75
+    },
+    "layout": {
+      "line-join": "round",
+      "line-cap": "round"
     },
     filter: ("routes", ["==", "School_Route", "No"])
   });
@@ -404,7 +420,8 @@ function addRoutesLayer(map) {
     source: "trolleyRoutes",
     paint: {
       "line-width": 5,
-      "line-color": "#49b048"
+      "line-color": "#49b048",
+      "line-opacity": 0.75
     }
   });
   map.addLayer({
@@ -413,7 +430,8 @@ function addRoutesLayer(map) {
     source: "bslRoute",
     paint: {
       "line-width": 5,
-      "line-color": "#f78c1f"
+      "line-color": "#f78c1f",
+      "line-opacity": 0.75
     }
   });
   map.addLayer({
@@ -422,7 +440,8 @@ function addRoutesLayer(map) {
     source: "mflRoute",
     paint: {
       "line-width": 5,
-      "line-color": "#4377BC"
+      "line-color": "#4377BC",
+      "line-opacity": 0.75
     }
   });
   map.addLayer({
@@ -431,12 +450,14 @@ function addRoutesLayer(map) {
     source: "rrRoutes",
     paint: {
       "line-width": 5,
-      "line-color": "#1f2833"
+      "line-color": "#1f2833",
+      "line-opacity": 0.75
     }
   });
 }
 
 function makeSurfaceStopPopups(coordinates, map, e) {
+  //console.log(e);
   var description = [
     "<h5>" +
     e.features[0].properties.Stop_Name +

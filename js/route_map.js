@@ -69,6 +69,7 @@ map_routes.on("load", function() {
     behaviour: 'drag',
     format: wNumb({
       decimals: 0,
+      //thousand: ',',
     }),
     range: {
       'min': [  0 ],
@@ -78,6 +79,16 @@ map_routes.on("load", function() {
       'max': [ 200000 ]
     },
     tooltips: [ true, true ],
+    pips: {
+      mode: 'positions',
+  		values: [0,25,50,75,100],
+  		density: 4,
+      stepped: true,
+      format: wNumb({
+        decimals: 0,
+        thousand: ',',
+      }),
+    }
   });
 
 

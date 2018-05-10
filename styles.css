@@ -277,3 +277,8 @@ html, body {
 #slider3 .noUi-connect {
 	background: #45A29E;
 }
+
+.github-button {
+  position: absolute;
+  bottom:   0;
+}

@@ -16,6 +16,8 @@ var map_stops = new mapboxgl.Map({
 
 var features = [];
 
+var isLoading;
+
 function goToStop(stopID, map = map_stops){
   map.flyTo({
     center: centerCoordinates,
@@ -53,16 +55,52 @@ function goToStop(stopID, map = map_stops){
   });
   //console.log(selection);
 
+  var coordinates = selection[0].geometry.coordinates;
+
   map.flyTo({
-    center: selection[0].geometry.coordinates,
+    center: coordinates,
     zoom: 15
   });
 
   //map.setZoom(15);
+  //console.log(selection);
+
+  var description = [
+    "<h5>" +
+    selection[0].properties.Stop_Name +
+    "</h5>" +
+    "<p>" +
+    "Stop ID: " +
+    selection[0].properties.Stop_ID +
+    "<br>" +
+    "Routes that Stop Here: " +
+    selection[0].properties.routeNumbers +
+    "<br>" +
+    "Average Daily Boards: " +
+    Math.round(selection[0].properties.Weekday_Boards).toLocaleString() +
+    "<br>" +
+    "Average Daily Leaves: " +
+    Math.round(selection[0].properties.Weekday_Leaves).toLocaleString() +
+    "<br>" +
+    "Average Daily Total: " +
+    Math.round(selection[0].properties.Weekday_Total).toLocaleString() +
+    "</p>"
+  ];
+  new mapboxgl.Popup({ offset: [0, -15] })
+  .setLngLat(coordinates)
+  .setHTML(description)
+  .addTo(map)
+  .on('close', function(x) {
+    //console.log('closed');
+    popupTracker = false;
+  });
+  popupTracker = true;
 }
 
 // on load, add the sources and layers
 map_stops.on("load", function() {
+
+  isLoading = true;
 
   addSeptaStopSources(map_stops);
   addStopsLayer(map_stops);
@@ -76,136 +114,134 @@ map_stops.on("load", function() {
   /*
   // start up the stopID search event listener
   stopIDSearch.addEventListener("keyup", function(e) {
-    var value = e.target.value.trim().toLowerCase();
+  var value = e.target.value.trim().toLowerCase();
 
-    // when the value is null, don't filter
-    if (value == "") {
-      map_stops.setFilter("busStops", null);
-      map_stops.setFilter("trolleyStops", null);
-      map_stops.setFilter("mflStops", null);
-      map_stops.setFilter("bslStops", null);
-      map_stops.setFilter("rrStops", null);
-    } else {
-      // if there is a value present, filter based on that value
-      map_stops.setFilter("busStops", ["==", "Stop_ID", parseInt(value)]);
-      map_stops.setFilter("trolleyStops", ["==", "Stop_ID", parseInt(value)]);
-      map_stops.setFilter("mflStops", ["==", "Stop_ID", parseInt(value)]);
-      map_stops.setFilter("bslStops", ["==", "Stop_ID", parseInt(value)]);
-      map_stops.setFilter("rrStops", ["==", "Stop_ID", parseInt(value)]);
-    }
-  });
-  */
+  // when the value is null, don't filter
+  if (value == "") {
+  map_stops.setFilter("busStops", null);
+  map_stops.setFilter("trolleyStops", null);
+  map_stops.setFilter("mflStops", null);
+  map_stops.setFilter("bslStops", null);
+  map_stops.setFilter("rrStops", null);
+} else {
+// if there is a value present, filter based on that value
+map_stops.setFilter("busStops", ["==", "Stop_ID", parseInt(value)]);
+map_stops.setFilter("trolleyStops", ["==", "Stop_ID", parseInt(value)]);
+map_stops.setFilter("mflStops", ["==", "Stop_ID", parseInt(value)]);
+map_stops.setFilter("bslStops", ["==", "Stop_ID", parseInt(value)]);
+map_stops.setFilter("rrStops", ["==", "Stop_ID", parseInt(value)]);
+}
+});
+*/
 
-  // start up the stopNameSearch  event listener
-  stopNameSearch.addEventListener("keyup", function(e) {
-    var value = e.target.value;
-    var options = {
-      keys: ['features.properites.Station_Name']
-    };
+// start up the stopNameSearch  event listener
+stopNameSearch.addEventListener("keyup", function(e) {
+  var x = e.keyCode;
+  var value = e.target.value;
+  var options = {
+    keys: ['features.properites.Station_Name']
+  };
 
-    //var f = new Fuse(books, options);
-    //var result = f.search('brwn');
+  if (value == "" && x != 32) {
+    map_stops.setFilter("busStops", null);
+    map_stops.setFilter("trolleyStops", null);
+    map_stops.setFilter("mflStops", null);
+    map_stops.setFilter("bslStops", null);
+    map_stops.setFilter("rrStops", null);
 
-    // when the value is null, don't filter
-    if (value == "") {
-      map_stops.setFilter("busStops", null);
-      map_stops.setFilter("trolleyStops", null);
-      map_stops.setFilter("mflStops", null);
-      map_stops.setFilter("bslStops", null);
-      map_stops.setFilter("rrStops", null);
-    } else {
-
-    }
-
+    // clear the list
     document.getElementById('auto-complete-list').innerHTML = "";
+    document.getElementById('auto-complete-list').removeElement('div');
+  } else {
 
-    var result = stopFuse.search(value);
-    //console.log(result[0]);
+  }
 
-    var div = document.createElement('div');
+  document.getElementById('auto-complete-list').innerHTML = "";
 
-    div.className = 'row';
+  var result = stopFuse.search(value);
+  //console.log(result[0]);
 
-    div.innerHTML =
-    '<ul class="demo-list-three mdl-list">' +
-    '<li class="mdl-list__item mdl-list__item--two-line">' +
-    '<span class="mdl-list__item-primary-content">' +
-    '<span>' + result[0].item.Stop_Name + '</span>' +
-    '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[0].item.Stop_ID + '</span>' +
-    '</span>' +
-    '<span class="mdl-list__item-secondary-content">' +
-    '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[0].item.Stop_ID+')"> Go Here </button>' +
-    '</span>' +
-    '</li>' +
-    '</ul>' +
-    '<ul class="demo-list-three mdl-list">' +
-    '<li class="mdl-list__item mdl-list__item--two-line">' +
-    '<span class="mdl-list__item-primary-content">' +
-    '<span>' + result[1].item.Stop_Name + '</span>' +
-    '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[1].item.Stop_ID + '</span>' +
-    '</span>' +
-    '<span class="mdl-list__item-secondary-content">' +
-    '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[1].item.Stop_ID+')"> Go Here </button>' +
-    '</span>' +
-    '</li>' +
-    '</ul>' +
-    '<ul class="demo-list-three mdl-list">' +
-    '<li class="mdl-list__item mdl-list__item--two-line">' +
-    '<span class="mdl-list__item-primary-content">' +
-    '<span>' + result[3].item.Stop_Name + '</span>' +
-    '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[3].item.Stop_ID + '</span>' +
-    '</span>' +
-    '<span class="mdl-list__item-secondary-content">' +
-    '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[3].item.Stop_ID+')"> Go Here </button>' +
-    '</span>' +
-    '</li>' +
-    '</ul>';
+  var div = document.createElement('div');
+
+  div.className = 'row';
+
+  div.innerHTML =
+  '<ul class="demo-list-three mdl-list">' +
+  '<li class="mdl-list__item mdl-list__item--two-line">' +
+  '<span class="mdl-list__item-primary-content">' +
+  '<span>' + result[0].item.Stop_Name + '</span>' +
+  '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[0].item.Stop_ID + '</span>' +
+  '</span>' +
+  '<span class="mdl-list__item-secondary-content">' +
+  '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[0].item.Stop_ID+')"> Go Here </button>' +
+  '</span>' +
+  '</li>' +
+  '</ul>' +
+  '<ul class="demo-list-three mdl-list">' +
+  '<li class="mdl-list__item mdl-list__item--two-line">' +
+  '<span class="mdl-list__item-primary-content">' +
+  '<span>' + result[1].item.Stop_Name + '</span>' +
+  '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[1].item.Stop_ID + '</span>' +
+  '</span>' +
+  '<span class="mdl-list__item-secondary-content">' +
+  '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[1].item.Stop_ID+')"> Go Here </button>' +
+  '</span>' +
+  '</li>' +
+  '</ul>' +
+  '<ul class="demo-list-three mdl-list">' +
+  '<li class="mdl-list__item mdl-list__item--two-line">' +
+  '<span class="mdl-list__item-primary-content">' +
+  '<span>' + result[3].item.Stop_Name + '</span>' +
+  '<span class="mdl-list__item-sub-title"> Stop ID: ' + result[3].item.Stop_ID + '</span>' +
+  '</span>' +
+  '<span class="mdl-list__item-secondary-content">' +
+  '<button class="mdl-button mdl-js-button" onclick="goToStop('+result[3].item.Stop_ID+')"> Go Here </button>' +
+  '</span>' +
+  '</li>' +
+  '</ul>';
 
 
+  document.getElementById('auto-complete-list').appendChild(div);
+});
 
-    //result[0].item.Stop_Name + "<br>" +  result[1].item.Stop_Name + "<br>" +  result[3].item.Stop_Name;
+// BUS STOP POPUPS
+map_stops.on("click", "busStops", function(e) {
+  var coordinates = e.features[0].geometry.coordinates.slice();
+  makeSurfaceStopPopups(coordinates, map_stops, e);
+});
 
-    document.getElementById('auto-complete-list').appendChild(div);
+// TROLLEY STOP POPUPS
+map_stops.on("click", "trolleyStops", function(e) {
+  var coordinates = e.features[0].geometry.coordinates.slice();
+  makeSurfaceStopPopups(coordinates, map_stops, e);
+});
+
+// MFL STOP POPUPS
+map_stops.on("click", "mflStops", function(e) {
+  var coordinates = e.features[0].geometry.coordinates.slice();
+  makeRailStopPopups(coordinates, map_stops, e);
+});
+
+// BSL STOP POPUPS
+map_stops.on("click", "bslStops", function(e) {
+  var coordinates = e.features[0].geometry.coordinates.slice();
+  makeRailStopPopups(coordinates, map_stops, e);
+});
+
+map_stops.on("click", "rrStops", function(e) {
+  var coordinates = e.features[0].geometry.coordinates.slice();
+  makeRRStopPopups(coordinates, map_stops, e);
+});
+
+var mapStopsLayers = ["busStops", "trolleyStops", "mflStops", "bslStops", "rrStops"];
+_.each(mapStopsLayers, function(x) {
+  map_stops.on("mouseenter", x, function() {
+    map_stops.getCanvas().style.cursor = "pointer";
   });
-
-  // BUS STOP POPUPS
-  map_stops.on("click", "busStops", function(e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    makeSurfaceStopPopups(coordinates, map_stops, e);
+  map_stops.on("mouseleave", "busStops", function() {
+    map_stops.getCanvas().style.cursor = "";
   });
-
-  // TROLLEY STOP POPUPS
-  map_stops.on("click", "trolleyStops", function(e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    makeSurfaceStopPopups(coordinates, map_stops, e);
-  });
-
-  // MFL STOP POPUPS
-  map_stops.on("click", "mflStops", function(e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    makeRailStopPopups(coordinates, map_stops, e);
-  });
-
-  // BSL STOP POPUPS
-  map_stops.on("click", "bslStops", function(e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    makeRailStopPopups(coordinates, map_stops, e);
-  });
-
-  map_stops.on("click", "rrStops", function(e) {
-    var coordinates = e.features[0].geometry.coordinates.slice();
-    makeRRStopPopups(coordinates, map_stops, e);
-  });
-
-  var mapStopsLayers = ["busStops", "trolleyStops", "mflStops", "bslStops", "rrStops"];
-  _.each(mapStopsLayers, function(x) {
-    map_stops.on("mouseenter", x, function() {
-      map_stops.getCanvas().style.cursor = "pointer";
-    });
-    map_stops.on("mouseleave", "busStops", function() {
-      map_stops.getCanvas().style.cursor = "";
-    });
-  });
+});
 
 
 var slider2 = document.getElementById('slider2');
@@ -225,6 +261,14 @@ noUiSlider.create(slider2, {
     'max': [ 35000 ]
   },
   tooltips: [ true, true ],
+  pips: {
+    mode: 'range',
+    density: 4,
+    format: wNumb({
+      decimals: 0,
+      thousand: ',',
+    }),
+  }
 });
 
 slider2.noUiSlider.on('update', function(values) {
@@ -310,4 +354,55 @@ _.each(layerBoxes, function(box) {
       }
     }
   };
+
+  isLoading = false;
+
 });
+
+var opts = {
+  lines: 13, // The number of lines to draw
+  length: 38, // The length of each line
+  width: 17, // The line thickness
+  radius: 45, // The radius of the inner circle
+  scale: 1, // Scales overall size of the spinner
+  corners: 1, // Corner roundness (0..1)
+  color: '#1f2833', // CSS color or array of colors
+  fadeColor: 'transparent', // CSS color or array of colors
+  speed: 1, // Rounds per second
+  rotate: 0, // The rotation offset
+  animation: 'spinner-line-fade-quick', // The CSS animation name for the lines
+  direction: 1, // 1: clockwise, -1: counterclockwise
+  zIndex: 2e9, // The z-index (defaults to 2000000000)
+  className: 'spinner', // The CSS class to assign to the spinner
+  top: '30%', // Top position relative to parent
+  left: '50%', // Left position relative to parent
+  shadow: '0 0 1px transparent', // Box-shadow for the lines
+  position: 'absolute' // Element positioning
+};
+
+var target = document.getElementById('main');
+var spinner = new Spinner(opts).spin(target);
+map_stops.on('render', function(){
+  //console.log('rendering');
+
+  if (isLoading === false) {
+    //spinner.spin(target);
+  }
+  if (isLoading === true) {
+    spinner.stop();
+  }
+
+
+  //console.log(isLoading);
+});
+
+/*
+map_stops.off('render', function(){
+//console.log('rendering')
+if (map_stops.areTilesLoaded() == true) {
+console.log(map_stops.areTilesLoaded());
+
+}
+spinner.stop();
+});
+*/

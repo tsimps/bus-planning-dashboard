@@ -4,7 +4,7 @@ Welcome to the transit analysis tool (legacy name: bus planning dashboard). This
 
 Data is provided by [SEPTA's open data portal](https://septaopendata-septa.opendata.arcgis.com).
 
-Check out my [website](www.tandrewsimpson.com) and feel free to [email me](mail@tandrewsimpson.com). 
+Check out my [website](https://www.tandrewsimpson.com) and feel free to [email me](mail@tandrewsimpson.com). 
 
 
 ## things in development

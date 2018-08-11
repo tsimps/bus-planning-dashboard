@@ -73,16 +73,19 @@ var options = {
   shouldSort: true,
   tokenize: true,
   //matchAllTokens: true, // fucks up with the space bar
+  keys: [{
+    name: 'Stop_ID',
+    weight: 0.5
+  }, {
+    name: 'Stop_Name',
+    weight: 0.5
+  }],
   includeScore: true,
   threshold: 0.5,
   location: 0,
   distance: 100,
   maxPatternLength: 20,
   minMatchCharLength: 3,
-  keys: [
-    "Stop_ID",
-    "Stop_Name"
-  ]
 };
 
 var stopFuse;
@@ -525,6 +528,7 @@ function makeRoutePopups(coordinates, map, e){
     e.features[0].properties.Route +
     "</h5>" +
     "<p>" +
+    e.features[0].properties.Route_Name + "<br>" +
     "Average Weekday Ridership: " +
     Math.round(e.features[0].properties.Average_Weekday_Passengers).toLocaleString() + "<br>" +
     "Operating Ratio: " + e.features[0].properties.Operating_Ratio + "%" + "<br>" +

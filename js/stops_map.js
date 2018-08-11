@@ -24,6 +24,9 @@ function goToStop(stopID, map = map_stops){
     zoom: 11
   });
 
+  // needs a way to figure out which mode the stop is.
+  // probably needs to be done in R. 
+
   map.setFilter("busStops", ["==", "Stop_ID", stopID]);
   map.setLayoutProperty("busStops", "visibility", "visible");
 

@@ -197,8 +197,13 @@ map_routes.on("load", function() {
       coordinates = e.lngLat;
       if(popupTracker === false){
         makeRRRoutePopups(coordinates, map_routes, e);
-        var routeNumber = e.features[0].properties.Route_Name;
+        var routeNumber = e.features[0].properties.Route_Name; //number is actually a name b/c no more R1, R2, etc.
         filterRoutes(map_routes, routeNumber);
+        // console.log('Show stops:');
+        // console.log('Route '+ routeNumber);
+
+        //note: due to bad data practice by septa, not able to join RR stops to
+        // RR lines at this time. will discuss at next chance
         filterStops(map_routes, routeNumber);
       }
       popupTracker = true;

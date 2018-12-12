@@ -122,30 +122,44 @@ function filterRoutes(map, routeNumber) {
     map.setLayoutProperty("rrStops", "visibility", "none");
 
   } else {
-    map.setFilter("busRoutes", ["==", "Route", routeNumber]);
-    map.setFilter("trolleyRoutes", ["==", "Route", routeNumber]);
-    map.setFilter("mflRoute", ["==", "Route", routeNumber]);
-    map.setFilter("bslRoute", ["==", "Route", routeNumber]);
-    map.setFilter("rrRoutes", ["==", "Route_Name", routeNumber]);
+    //if (routeNumber === "MFL") {routeNumber = "Market-Frankford Line";}
+    //if (routeNumber === "BSL") {routeNumber = "Broad Street Line";}
+    let holder = routeNumber.split(", ");
+    holder = holder.map(function(x){ return x.replace(/MFL/g,"Market-Frankford Line") });
+    holder = holder.map(function(x){ return x.replace(/BSL/g,"Broad Street Line") });
+    map.setFilter('busRoutes', ['match', ['get', 'Route'], holder, true, false]);
+    map.setFilter('trolleyRoutes', ['match', ['get', 'Route'], holder, true, false]);
+    map.setFilter('mflRoute', ['match', ['get', 'Route'], holder, true, false]);
+    map.setFilter('bslRoute', ['match', ['get', 'Route'], holder, true, false]);
+    map.setFilter('rrRoutes', ['match', ['get', 'Route'], holder, true, false]);
   }
 }
 
 function filterStops(map, routeNumber) {
+  //if (routeNumber === "MFL") {routeNumber = "Market-Frankford Line";}
+  //if (routeNumber === "BSL") {routeNumber = "Broad Street Line";}
+
   //console.log(routeNumber);
-  map.setFilter("busStops", ["==", "Route", routeNumber]);
+  let holder = routeNumber.split(", ");
+  holder = holder.map(function(x){ return x.replace(/MFL/g,"Market-Frankford Line") });
+  holder = holder.map(function(x){ return x.replace(/BSL/g,"Broad Street Line") });
+  //console.log(holder);
+
+  map.setFilter('busStops', ['match', ['get', 'Route'], holder, true, false])
   map.setLayoutProperty("busStops", "visibility", "visible");
 
-  map.setFilter("trolleyStops", ["==", "Route", routeNumber]);
+  map.setFilter('trolleyStops', ['match', ['get', 'Route'], holder, true, false])
   map.setLayoutProperty("trolleyStops", "visibility", "visible");
 
-  map.setFilter("mflStops", ["==", "Route", routeNumber]);
+  map.setFilter('mflStops', ['match', ['get', 'Route'], holder, true, false])
   map.setLayoutProperty("mflStops", "visibility", "visible");
 
-  map.setFilter("bslStops", ["==", "Route", routeNumber]);
+  map.setFilter('bslStops', ['match', ['get', 'Route'], holder, true, false])
   map.setLayoutProperty("bslStops", "visibility", "visible");
 
-  map.setFilter("rrStops", ["==", "Line_Name", routeNumber]);
+  map.setFilter('rrStops', ['match', ['get', 'Route'], holder, true, false])
   map.setLayoutProperty("rrStops", "visibility", "visible");
+
 }
 
 // function that adds all of the septa sources to a map

@@ -157,25 +157,26 @@ map_routes.on("load", function() {
     var a = map_routes.querySourceFeatures(x);
   });
 
+  function layerClicking(e) {
+    layerClick = true;
+    coordinates = e.lngLat;
+    makeRoutePopups(coordinates, map_routes, e);
+    var routeNumber = e.features[0].properties.Route;
+    //console.log(e.features[0].properties.Route);
+    filterRoutes(map_routes, routeNumber);
+    filterStops(map_routes, routeNumber);
+    // update the search box to allow the user to clear
+    $("#routeSearch")[0].parentElement.MaterialTextfield.change(
+      e.features[0].properties.Route
+    );
+  };
+
   // listen for a click anywhere on the map
   map_routes.on("click", function(e) {
 
     // boolean for tracking clicks on a layer
     var layerClick = false;
     var coordinates = 0;
-
-    function layerClicking(e) {
-      layerClick = true;
-      coordinates = e.lngLat;
-      makeRoutePopups(coordinates, map_routes, e);
-      var routeNumber = e.features[0].properties.Route;
-      filterRoutes(map_routes, routeNumber);
-      filterStops(map_routes, routeNumber);
-      // update the search box to allow the user to clear
-      $("#routeSearch")[0].parentElement.MaterialTextfield.change(
-        e.features[0].properties.Route
-      );
-    }
 
     map_routes.on("click", "busRoutes", function(e) {
       if(popupTracker === false){layerClicking(e);}
@@ -225,11 +226,22 @@ map_routes.on("load", function() {
   // search by text input
   routeSearchInput.addEventListener("keyup", function(e) {
     var routeNumber = e.target.value;
-    if (routeNumber === "MFL") {routeNumber = "Market-Frankford Line";}
-    if (routeNumber === "BSL") {routeNumber = "Broad Street Line";}
+
 
     filterRoutes(map_routes, routeNumber);
     filterStops(map_routes, routeNumber);
+
+    //console.log(routeNumber);
+    coordinates = map_routes.getCenter();
+    console.log(mapRoutesLayers[0]);
+    //makeRoutePopups(coordinates, map_routes, e);
+    /*
+    if (popupTracker === false) {
+      layerClicking(e);
+      popupTracker = true;
+    }
+    */
+
   });
 
   // LAYER CONTROL

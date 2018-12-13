@@ -169,7 +169,7 @@ map_routes.on("load", function() {
     $("#routeSearch")[0].parentElement.MaterialTextfield.change(
       e.features[0].properties.Route
     );
-  };
+  }
 
   // listen for a click anywhere on the map
   map_routes.on("click", function(e) {
@@ -213,13 +213,11 @@ map_routes.on("load", function() {
       );
     });
     if (layerClick === false && popupTracker === false) {
-
+      //console.log('click nothing')
       // clear the map
-      filterRoutes(map_routes, "");
-      $("#routeSearch")[0].parentElement.MaterialTextfield.change(
-        ""
-      );
-      slider3.noUiSlider.set([null, null]);
+      //filterRoutes(map_routes, "");
+      //$("#routeSearch")[0].parentElement.MaterialTextfield.change("");
+      //slider3.noUiSlider.set([null, null]);
     }
   });
 
